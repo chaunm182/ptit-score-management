@@ -19,7 +19,8 @@ public class Subject {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToOne(mappedBy = "subject", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_detail_id")
     private SubjectDetail subjectDetail;
 
 

@@ -21,8 +21,7 @@ public class SubjectDetail {
     @Column(name = "assignment_weight")
     private Integer assignmentWeight;
 
-    @OneToOne
-    @JoinColumn(name = "subject_id")
+    @OneToOne(mappedBy = "subjectDetail",cascade = CascadeType.ALL)
     private Subject subject;
 
     public SubjectDetail() {
