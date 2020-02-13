@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/admin.html}"
+      lang = "en">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:fragment="~{/layout/admin.html :: title}">Trang chủ</title>
+</head>
+<body>
+<!--replace page title-->
+<h4 layout:fragment="page-title">Bảng điều khiển</h4>
+
+<!--replace breadcrumbs-->
+<ul layout:fragment="breadcrumbs">
+    <li><a th:href="@{/admin/home}">Trang chủ</a></li>
+    <li><span>Bảng điều khiển</span></li>
+</ul>
+
+<!--content-->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse">Thông báo</a>
+                </div>
+                <div id="accordion61" class="collapse show" data-parent="">
+                    <div class="card-body">
+                        <p>Bạn đã đăng nhập thành công</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

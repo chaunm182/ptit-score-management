@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+<head>
+</head>
+<body>
+<div class="sidebar-menu">
+    <div class="sidebar-header">
+        <div class="logo">
+            <a href="#"><img th:src="@{/images/icon/logo.png}" alt="logo"/></a>
+        </div>
+    </div>
+    <div class="main-menu">
+        <div class="menu-inner">
+            <nav>
+                <ul class="metismenu" id="menu">
+
+                    <li class="active"><a href="#"><i class="ti-dashboard"></i><span>Bảng điều khiển</span></a></li>
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>Quản lý sinh viên</span></a>
+                        <ul class="collapse">
+                            <li><a href="#">Danh sách sinh viên</a></li>
+                            <li><a href="#">Thêm sinh viên</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>
