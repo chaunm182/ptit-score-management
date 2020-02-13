@@ -19,10 +19,16 @@
         <div class="col-sm-6 clearfix">
             <div class="user-profile pull-right">
                 <img class="avatar user-thumb" th:src="@{/images/author/avatar.png}" alt="avatar">
-                <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Kumkum Rai <i class="fa fa-angle-down"></i></h4>
+                <th:block th:if="${session.account}">
+                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown" th:text="${session.account.username}" > <i class="fa fa-angle-down"></i></h4>
+                </th:block>
+
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">Tài khoản của tôi</a>
-                    <a class="dropdown-item" href="#">Đăng xuất</a>
+                    <form method="post" th:action="@{/logout}">
+                        <button type="submit" class="dropdown-item">Đăng xuất</button>
+                    </form>
+
                 </div>
             </div>
         </div>

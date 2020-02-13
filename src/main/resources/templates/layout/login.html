@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang = "en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Đăng nhập</title>
+    <th:block th:insert="~{/layout/admin.html :: head/link}"/>
+
+    <!-- modernizr css -->
+    <th:block th:insert="~{/layout/admin.html :: head/script}"/>
+</head>
+<body>
+    <div layout:fragment="body"></div>
+    <th:block th:insert="~{/layout/admin.html :: body/script}"/>
+</body>
+</html>

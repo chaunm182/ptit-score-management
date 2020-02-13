@@ -36,7 +36,7 @@ public class Account {
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @ManyToMany(mappedBy = "accounts")
+    @ManyToMany(mappedBy = "accounts", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public Account() {
@@ -112,5 +112,13 @@ public class Account {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

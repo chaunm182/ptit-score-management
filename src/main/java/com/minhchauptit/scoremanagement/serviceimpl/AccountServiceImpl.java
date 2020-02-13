@@ -34,4 +34,20 @@ public class AccountServiceImpl implements AccountService {
         }
         return new MyAccount(account.getUsername(),account.getPassword(),authorities,account.getEnable());
     }
+
+    @Override
+    public Account findById(Integer id) {
+        Optional<Account> optional =  accountRepository.findById(id);
+        if(optional.isPresent()) return optional.get();
+        return null;
+    }
+
+    @Override
+    public Account findByUsername(String username) {
+        Optional<Account> optional =  accountRepository.findAccountByUsername(username);
+        if(optional.isPresent()) return optional.get();
+        return null;
+    }
+
+
 }
