@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/admin.html}"
+      lang = "en">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:fragment="~{/layout/admin.html :: title}">Thêm môn học</title>
+</head>
+<body>
+<!--replace page title-->
+<h4 layout:fragment="page-title">Quản lý môn học</h4>
+
+<!--replace breadcrumbs-->
+<ul layout:fragment="breadcrumbs">
+    <li><a th:href="@{/admin/home}">Trang chủ</a></li>
+    <li><span>Quản lý môn học</span></li>
+</ul>
+
+<!--content-->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Thêm môn học mới</h4>
+                    <form method="post" th:object="${subject}" th:action="@{/admin/subject/save}">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="id"><strong>Mã môn học</strong></label>
+                                    <input type="text" class="form-control" id="id" th:field="*{id}" placeholder="Mã môn học...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name"><strong>Tên môn học</strong></label>
+                                    <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Tên môn học...">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="id"><strong>Điểm chuyên cần</strong></label>
+                                    <input type="number" id="attendanceWeight" th:field="*{subjectDetail.attendanceWeight}" class="form-control" placeholder="Hệ số chuyên cần...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="midTermExamWeight"><strong>Điểm kiểm tra</strong></label>
+                                    <input type="number" id="midTermExamWeight" th:field="*{subjectDetail.midTermExamWeight}" class="form-control" placeholder="Hệ số điểm kiểm tra...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="practiceWeight"><strong>Điểm thí nghiệm - thực hành</strong></label>
+                                    <input type="number" id="practiceWeight" th:field="*{subjectDetail.practiceWeight}" class="form-control" placeholder="Hệ số TN-TH...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="assignmentWeight"><strong>Điểm chuyên cần</strong></label>
+                                    <input type="number" id="assignmentWeight" th:field="*{subjectDetail.assignmentWeight}" class="form-control" placeholder="Hệ số bài tập lớn...">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Lưu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script">
+    $(document).ready(function () {
+        activeParentMenu("menuSubject","listMenuSubject");
+        activeMenu("menuAddSubject");
+    })
+</script>
+</body>
+</html>
