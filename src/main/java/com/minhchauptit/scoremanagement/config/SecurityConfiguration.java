@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +31,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .formLogin().permitAll();
-        http.csrf().disable();
+                    .formLogin()
+                    .loginPage("/login")
+                    .usernameParameter("username").passwordParameter("password")
+                    .loginProcessingUrl("/auth-user").successHandler(authenticationSuccessHandler).permitAll()
+                .and()
+                    .logout().clearAuthentication(true).permitAll()
+                .and()
+                    .exceptionHandling().accessDeniedPage("/access-denied");
 
     }
 }
