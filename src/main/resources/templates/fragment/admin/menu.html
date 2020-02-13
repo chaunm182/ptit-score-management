@@ -14,13 +14,33 @@
             <nav>
                 <ul class="metismenu" id="menu">
 
-                    <li class="active"><a href="#"><i class="ti-dashboard"></i><span>Bảng điều khiển</span></a></li>
-                    <li>
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>Quản lý sinh viên</span></a>
+                    <li id="menuDashboard"><a href="#"><i class="ti-dashboard"></i><span>Bảng điều khiển</span></a></li>
+                    <li id="menuAccount">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>Quản lý tài khoản </span></a>
                         <ul class="collapse">
-                            <li><a href="#">Danh sách sinh viên</a></li>
-                            <li><a href="#">Thêm sinh viên</a></li>
-
+                            <li id="menuListAccount"><a href="#"><i class="fa fa-list"></i><span>Danh sách tài khoản</span></a></li>
+                            <li id="menuAddAccount"><a href="#"><i class="fa fa-user-plus"></i><span>Thêm tài khoản</span></a></li>
+                        </ul>
+                    </li>
+                    <li id="menuStudent">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-graduation-cap"></i><span>Quản lý sinh viên</span></a>
+                        <ul class="collapse">
+                            <li id="menuListStudent"><a href="#"><i class="fa fa-list"></i><span>Danh sách sinh viên</span></a></li>
+                            <li id="menuAddStudent"><a href="#"><i class="ti-plus"></i><span>Thêm sinh viên</span></a></li>
+                        </ul>
+                    </li>
+                    <li id="menuSubject">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-folder"></i><span>Quản lý môn học</span></a>
+                        <ul class="collapse">
+                            <li id="menuListSubject"><a href="#"><i class="fa fa-list"></i><span>Danh sách môn học</span></a></li>
+                            <li id="menuAddSubject"><a href="#"><i class="ti-plus"></i><span>Thêm môn học</span></a></li>
+                        </ul>
+                    </li>
+                    <li id="menuScore">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>Quản lý điểm thi </span></a>
+                        <ul class="collapse">
+                            <li id="menuUploadScore"><a href="#"><i class="ti-upload"></i><span>Upload file điểm</span></a></li>
+                            <li id="menuSearchScore"><a href="#"><i class="ti-search"></i><span>Tìm kiếm điểm thi</span></a></li>
                         </ul>
                     </li>
                 </ul>
