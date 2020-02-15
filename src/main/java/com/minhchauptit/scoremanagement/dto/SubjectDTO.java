@@ -4,8 +4,10 @@ package com.minhchauptit.scoremanagement.dto;
 import java.sql.Timestamp;
 
 public class SubjectDTO {
-    private String id;
+    private Integer id;
+    private String subjectId;
     private String name;
+    private Integer credit;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private SubjectDetailDTO subjectDetailDTO;
@@ -13,12 +15,20 @@ public class SubjectDTO {
     public SubjectDTO() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
     }
 
     public String getName() {
@@ -27,6 +37,14 @@ public class SubjectDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
     }
 
     public Timestamp getCreatedAt() {

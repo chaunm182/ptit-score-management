@@ -8,10 +8,17 @@ import java.util.Set;
 @Table(name = "subject")
 public class Subject {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "subject_id")
+    private String subjectId;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "credit")
+    private Integer credit;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
@@ -30,16 +37,32 @@ public class Subject {
     public Subject() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
     }
 
     public void setName(String name) {

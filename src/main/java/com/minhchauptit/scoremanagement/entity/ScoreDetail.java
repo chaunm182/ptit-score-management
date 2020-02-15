@@ -31,7 +31,7 @@ public class ScoreDetail {
     @Column(name = "semester")
     private Integer semester;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "student_id")
     private Student student;
 

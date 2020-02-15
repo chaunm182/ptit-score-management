@@ -34,7 +34,7 @@
                     </li>
                     <li id="menuSubject">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="ti-folder"></i><span>Quản lý môn học</span></a>
-                        <ul id="listMenuSubject" class="collapse">
+                        <ul class="collapse">
                             <li id="menuListSubject">
                                 <a th:href="@{/admin/subject/list}">
                                     <i class="fa fa-list"></i><span>Danh sách môn học</span>
@@ -48,7 +48,7 @@
                     <li id="menuScore">
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>Quản lý điểm thi </span></a>
                         <ul class="collapse">
-                            <li id="menuUploadScore"><a href="#"><i class="ti-upload"></i><span>Upload file điểm</span></a></li>
+                            <li id="menuUploadScore"><a th:href="@{/admin/score/upload}"><i class="ti-upload"></i><span>Upload file điểm</span></a></li>
                             <li id="menuSearchScore"><a href="#"><i class="ti-search"></i><span>Tìm kiếm điểm thi</span></a></li>
                         </ul>
                     </li>

@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title th:fragment="~{/layout/admin.html :: title}">Thêm môn học</title>
+    <title>Thêm môn học</title>
 </head>
 <body>
 <!--replace page title-->
@@ -24,17 +24,22 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Thêm môn học mới</h4>
+                    <h4 class="header-title" th:text="${subject.id==null} ? 'Thêm môn học mới' : 'Cập nhật môn học - '+${subject.subjectId}"></h4>
                     <form method="post" th:object="${subject}" th:action="@{/admin/subject/save}">
                         <div class="row">
+                            <input type="hidden" th:field="*{id}">
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="id"><strong>Mã môn học</strong></label>
-                                    <input type="text" class="form-control" id="id" th:field="*{id}" placeholder="Mã môn học...">
+                                    <input type="text" class="form-control" id="id" th:field="*{subjectId}" placeholder="Mã môn học...">
                                 </div>
                                 <div class="form-group">
                                     <label for="name"><strong>Tên môn học</strong></label>
                                     <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Tên môn học...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name"><strong>Số tín chỉ</strong></label>
+                                    <input type="number" class="form-control" th:field="*{credit}" id="credit" placeholder="Số tín chỉ...">
                                 </div>
                             </div>
                             <div class="col-3">
@@ -65,7 +70,7 @@
 </div>
 <script layout:fragment="script">
     $(document).ready(function () {
-        activeParentMenu("menuSubject","listMenuSubject");
+        activeParentMenu("menuSubject");
         activeMenu("menuAddSubject");
     })
 </script>

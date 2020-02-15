@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title th:fragment="~{/layout/admin.html :: title}">Danh sách môn học</title>
+    <title>Danh sách môn học</title>
 </head>
 <body>
 <!--replace page title-->
@@ -27,8 +27,18 @@
                     <strong>Well done!</strong> Thêm môn học mới thành công
                 </div>
             </th:block>
-            <th:block th:if="${param.insert_error}">
+            <th:block th:if="${param.update_success}">
                 <div class="alert alert-success" role="alert">
+                    <strong>Well done!</strong> Cập nhật môn học thành công
+                </div>
+            </th:block>
+            <th:block th:if="${param.delete_success}">
+                <div class="alert alert-success" role="alert">
+                    <strong>Well done!</strong> Xóa môn học thành công
+                </div>
+            </th:block>
+            <th:block th:if="${param.insert_error!=null || param.update_error!=null}">
+                <div class="alert alert-danger" role="alert">
                     <strong>Opps!</strong> Có lỗi xảy ra. Vui lòng thử lại sau
                 </div>
             </th:block>
@@ -42,6 +52,7 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Tên môn học</th>
+                                    <th scope="col">Số tín chỉ</th>
                                     <th scope="col">Chuyên cần</th>
                                     <th scope="col">Kiểm tra</th>
                                     <th scope="col">TN-TH</th>
@@ -51,51 +62,91 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                <tr th:each="item : ${subjects}">
-                                    <th scope="row" th:text="${item.id}"></th>
-                                    <td th:text="${item.name}"></td>
-                                    <td th:text="${item.subjectDetail.attendanceWeight}+'%'"></td>
-                                    <td th:text="${item.subjectDetail.midTermExamWeight}+'%'"></td>
-                                    <td th:text="${item.subjectDetail.practiceWeight}+'%'"></td>
-                                    <td th:text="${item.subjectDetail.assignmentWeight}+'%'"></td>
-                                    <td th:text="${item.createdAt}"></td>
-                                    <td>
-                                        <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                                    <!--subjects goes here-->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <ul class="pagination pg-color-border float-right">
-                        <li class="page-item">
-                            <a class="page-link" href="#" tabindex="-1">Trước</a>
-                        </li>
-                        <th:block th:each="pageNumber : ${#numbers.sequence(0,totalPages - 1)}">
-                            <li th:class="${currentPage==pageNumber} ? 'page-item active' : 'page-item' ">
-                                <a class="page-link" href="#" th:text="${pageNumber + 1}"></a>
-                            </li>
-                        </th:block>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Sau</a>
-                        </li>
+                    <ul id="pagination" class="pagination pg-color-border float-right">
+
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+    <span id="totalPages" style="display: none" th:text="${totalPages}"></span>
 </div>
-<script layout:fragment="script">
+
+<script layout:fragment="script" th:inline="javascript">
     $(document).ready(function () {
-        activeParentMenu("menuSubject","listMenuSubject");
+        activeParentMenu("menuSubject");
         activeMenu("menuListSubject");
+        var totalPages = $('#totalPages').text();
+        $('#pagination').twbsPagination({
+            totalPages : totalPages,
+            initiateStartPageClick: true,
+            first : "Trang đầu",
+            next : "Tiếp",
+            prev : 'Trước',
+            last : 'Trang cuối',
+            onPageClick: function (event,page) {
+                $('tbody').html('');
+                loadSubjectsToTable(page-1,8,'subjectId','asc');
+            }
+        })
     })
+
+    function loadSubjectsToTable(page,size,sortExpression,sortDirection) {
+        var url = /*[[@{/api/subjects/}]]*/'';
+        url = url+page+','+size+','+sortExpression+','+sortDirection;
+        $.ajax({
+            url : url,
+            type : 'GET',
+            dataType : 'json',
+            cache : false,
+            timeout : 300000,
+            success: function (data) {
+                $.each(data, function (index,item) {
+                    drawSubjectRow(item);
+                })
+            }
+        });
+    }
+    function drawSubjectRow(item) {
+        var updateLink = /*[[@{/admin/subject/update?id=}]]*/ '';
+        var deleteLink = /*[[@{/admin/subject/delete?id=}]]*/ '';
+
+        var tbody = $('tbody');
+
+        var colId = '<th scope="row">'+item.subjectId+'</th>';
+        var colName = '<td>'+item.name+'</td>';
+        var colCredit = '<td>'+item.credit+'</td>';
+        var colAttendance = '<td>'+item.subjectDetailDTO.attendanceWeight+'</td>';
+        var colMidTermExam = '<td>'+item.subjectDetailDTO.midTermExamWeight+'</td>';
+        var colPractice = '<td>'+item.subjectDetailDTO.practiceWeight+'</td>';
+        var colAssignment = '<td>'+item.subjectDetailDTO.assignmentWeight+'</td>';
+        var colCreatedAt = '<td>'+item.createdAt+'</td>';
+        var colAction = '<td>\n' +
+            '               <ul class="d-flex justify-content-center">\n' +
+            '                  <li class="mr-3"><a href='+updateLink+item.id+' class="text-secondary"><i class="fa fa-edit"></i></a></li>\n' +
+            '                  <li><a href='+deleteLink+item.id+' class="text-danger"><i class="ti-trash"></i></a></li>\n' +
+            '                </ul>\n' +
+            '            </td>';
+
+        tbody.append('<tr>' +
+                colId+
+                colName+
+                colCredit+
+                colAttendance+
+                colMidTermExam+
+                colPractice+
+                colAssignment+
+                colCreatedAt+
+                colAction+
+            '</tr>');
+    }
 </script>
 </body>
 </html>

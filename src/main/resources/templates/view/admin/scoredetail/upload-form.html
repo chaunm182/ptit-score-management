@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/admin.html}"
+      lang = "en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload điểm thi</title>
+</head>
+<body>
+<!--replace page title-->
+<h4 layout:fragment="page-title">Quản lý điểm thi</h4>
+
+<!--replace breadcrumbs-->
+<ul layout:fragment="breadcrumbs">
+    <li><a th:href="@{/admin/home}">Trang chủ</a></li>
+    <li><span>Quản lý điểm thi</span></li>
+</ul>
+
+<!--content-->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Upload điểm thi</h4>
+<!--                    upload form-->
+                    <div class="row">
+                        <div class="col-6">
+                            <form enctype="multipart/form-data" method="post" th:action="@{/admin/score/check-file}">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="file" class="custom-file-input" id="file">
+                                        <label id="fileName" class="custom-file-label" for="file">Chọn file excel...</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-info" type="submit"><i class="fa fa-check"></i><span> Kiểm tra</span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+<!--                    check table-->
+                    <div class="row">
+                        <div class="col-12 mt-5">
+                            <div class="data-tables datatable-primary">
+                                <table id="dataTable2" class="text-center">
+                                    <thead class="text-capitalize">
+                                    <tr>
+                                        <th>Mã sinh viên</th>
+                                        <th>Họ tên</th>
+                                        <th>Chuyên cần</th>
+                                        <th>TBKT</th>
+                                        <th>TN-TH</th>
+                                        <th>Thi</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>B16DCCN001</td>
+                                        <td>Nguyễn Văn A</td>
+                                        <td>10</td>
+                                        <td>10</td>
+                                        <td>10</td>
+                                        <td>10</td>
+                                        <td>Ghi chú</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+<!--                    button-->
+
+                    <div class="row mt-5">
+                        <div class="form-group my-1 col-3">
+                            <label class="col-form-label sr-only">Môn học</label>
+                            <select id="subject" class="custom-select">
+                                <option value="0" selected="selected">Chọn môn học</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <small style="display: none;" id="subjectHelp" class="form-text text-muted">Hãy chọn 1 môn học</small>
+                        </div>
+                        <div class="col-sm-2 my-1">
+                            <label class="sr-only" for="semester">kỳ học</label>
+                            <input type="text" class="form-control" id="semester" placeholder="Kỳ học...">
+                        </div>
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script">
+    $(document).ready(function () {
+        activeParentMenu("menuScore");
+        activeMenu("menuUploadScore");
+    })
+    $('#subject').on('change',function () {
+        var val = $(this).val();
+        if(val==0){
+            $("#subjectHelp").css("display","inline-block");
+        }
+        else{
+            $("#subjectHelp").css("display","none");
+        }
+
+    })
+
+    $("#file").on('change',function () {
+        var fileName = $(this)[0].files[0].name;
+        $('#fileName').text(fileName);
+    })
+</script>
+</body>
+</html>

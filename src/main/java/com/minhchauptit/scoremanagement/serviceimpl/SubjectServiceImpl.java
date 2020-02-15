@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -42,9 +43,21 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public Subject findById(Integer id) {
+        Optional<Subject> optional = subjectRepository.findById(id);
+        if(optional.isPresent()) return optional.get();
+        return null;
+    }
+
+    @Override
     public long calculateTotalPages(Integer size) {
         long totalRecord = subjectRepository.count();
         if (totalRecord%size==0) return totalRecord/size;
         return totalRecord/size +1;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        subjectRepository.deleteById(id);
     }
 }

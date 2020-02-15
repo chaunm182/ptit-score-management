@@ -12,5 +12,9 @@ public interface SubjectService {
 
     Subject save(Subject subject);
 
+    Subject findById(Integer id);
+
     long calculateTotalPages(Integer size);
+
+    void deleteById(Integer id);
 }
