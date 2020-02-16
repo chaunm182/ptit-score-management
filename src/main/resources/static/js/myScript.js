@@ -1,6 +1,7 @@
-function activeParentMenu(id,subId) {
-    $('#'+id).prop("class","active");
-    $('#'+subId).prop("class","collapse in")
+function activeParentMenu(id) {
+    var menuActive = $('#'+id).prop("class","active");
+    var ul = menuActive.find('ul');
+    ul.prop("class","collapse in")
 }
 
 function activeMenu(id) {

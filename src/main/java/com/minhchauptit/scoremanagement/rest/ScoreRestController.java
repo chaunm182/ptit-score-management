@@ -1,11 +1,23 @@
 package com.minhchauptit.scoremanagement.rest;
 
+import com.minhchauptit.scoremanagement.dto.ScoreDetailDTO;
+import com.minhchauptit.scoremanagement.entity.ScoreDetail;
+import com.minhchauptit.scoremanagement.entity.Student;
+import com.minhchauptit.scoremanagement.entity.Subject;
+import com.minhchauptit.scoremanagement.service.ScoreDetailService;
 import com.minhchauptit.scoremanagement.service.StorageService;
+import com.minhchauptit.scoremanagement.service.StudentService;
+import com.minhchauptit.scoremanagement.service.SubjectService;
+import com.minhchauptit.scoremanagement.util.bean.ScoreDetailBeanUtil;
+import com.minhchauptit.scoremanagement.util.file.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+
+import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -17,14 +29,73 @@ public class ScoreRestController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private ExcelUtil excelUtil;
+
+    @Autowired
+    private SubjectService subjectService;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private ScoreDetailService scoreDetailService;
+
+
+
     @GetMapping("/scores")
     public String findAll(){
         return "hello";
     }
 
-    @PostMapping("/scores/upload")
-    public String uploadFile(HttpServletRequest request, @RequestBody MultipartFile file){
-        storageService.uploadFile(file);
-        return "Upload file successfully";
+    @PostMapping("/scores")
+    public String saveScoreDetail(@RequestBody ScoreDetail scoreDetail){
+        scoreDetailService.saveScoreDetail(scoreDetail);
+        return "Save score: "+scoreDetail.getId();
     }
+
+
+
+    @PostMapping("/scores/upload")
+    public List<ScoreDetailDTO> uploadFile(@RequestBody MultipartFile file){
+        logger.info("--------Uploading file--------");
+        String absolutePath = storageService.uploadFile(file);
+        logger.info(absolutePath);
+        logger.info("--------Upload successfully. Reading file----------");
+        List<ScoreDetailDTO> result = null;
+        try {
+            result = excelUtil.readScoreDetailFile(absolutePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @PostMapping("/scores/upload/{subjectId},{semester}")
+    public String saveScores(@PathVariable(name = "subjectId") Integer subjectId,
+                             @PathVariable(name = "semester") Integer semester,
+                             @RequestBody List<ScoreDetailDTO> listScoreDetailDTOS){
+        Subject subject = subjectService.findById(subjectId);
+        int count=0;
+        for(ScoreDetailDTO scoreDetailDTO : listScoreDetailDTOS){
+            ScoreDetail scoreDetail = ScoreDetailBeanUtil.dto2Entity(scoreDetailDTO);
+            scoreDetail.setSubject(subject);
+            scoreDetail.setSemester(semester);
+            String studentId = scoreDetail.getStudent().getStudentId();
+            Student student = studentService.findByStudentId(studentId);
+            if(student!=null){
+                scoreDetail.setStudent(student);
+            }
+            try {
+                scoreDetailService.saveScoreDetail(scoreDetail);
+                count++;
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+        return "Success - Save "+count+" records";
+    }
+
+
 }

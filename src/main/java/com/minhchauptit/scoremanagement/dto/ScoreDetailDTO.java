@@ -1,45 +1,20 @@
-package com.minhchauptit.scoremanagement.entity;
+package com.minhchauptit.scoremanagement.dto;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 
-@Entity
-@Table(name = "score_detail")
-public class ScoreDetail {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ScoreDetailDTO {
     private Integer id;
-
-    @Column(name = "attendance_score")
     private Float attendanceScore;
-
-    @Column(name = "mid_term_exam_score")
     private Float midTermExamScore;
-
-    @Column(name = "practice_score")
     private Float practiceScore;
-
-    @Column(name = "assignment_score")
     private Float assignmentScore;
-
-    @Column(name = "final_exam_score")
     private Float finalExamScore;
-
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "semester")
     private Integer semester;
+    private SubjectDTO subjectDTO;
+    private StudentDTO studentDTO;
 
-    @ManyToOne(cascade = {CascadeType.DETACH})
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
-
-    public ScoreDetail() {
+    public ScoreDetailDTO() {
     }
 
     public Integer getId() {
@@ -106,19 +81,19 @@ public class ScoreDetail {
         this.semester = semester;
     }
 
-    public Student getStudent() {
-        return student;
+    public SubjectDTO getSubjectDTO() {
+        return subjectDTO;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setSubjectDTO(SubjectDTO subjectDTO) {
+        this.subjectDTO = subjectDTO;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public StudentDTO getStudentDTO() {
+        return studentDTO;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setStudentDTO(StudentDTO studentDTO) {
+        this.studentDTO = studentDTO;
     }
 }

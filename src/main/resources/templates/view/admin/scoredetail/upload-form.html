@@ -28,60 +28,47 @@
 <!--                    upload form-->
                     <div class="row">
                         <div class="col-6">
-                            <form enctype="multipart/form-data" method="post" th:action="@{/admin/score/check-file}">
+                            <form id="fileUploadForm" enctype="multipart/form-data" method="post" th:action="@{/api/scores/upload}">
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" name="file" class="custom-file-input" id="file">
                                         <label id="fileName" class="custom-file-label" for="file">Chọn file excel...</label>
                                     </div>
                                     <div class="input-group-append">
-                                        <button class="btn btn-info" type="submit"><i class="fa fa-check"></i><span> Kiểm tra</span></button>
+                                        <button id="btnSubmit" class="btn btn-info" type="submit"><i class="fa fa-check"></i><span id="btnSubmitLabel"> Upload</span></button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-<!--                    check table-->
-                    <div class="row">
-                        <div class="col-12 mt-5">
-                            <div class="data-tables datatable-primary">
-                                <table id="dataTable2" class="text-center">
-                                    <thead class="text-capitalize">
-                                    <tr>
-                                        <th>Mã sinh viên</th>
-                                        <th>Họ tên</th>
-                                        <th>Chuyên cần</th>
-                                        <th>TBKT</th>
-                                        <th>TN-TH</th>
-                                        <th>Thi</th>
-                                        <th>Ghi chú</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>B16DCCN001</td>
-                                        <td>Nguyễn Văn A</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>10</td>
-                                        <td>Ghi chú</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                    <div id="progressReadData" style="display: none" class="row mt-3">
+                        <div class="col-12">
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="fileCheckResult" class="row" style="display: none">
+                        <div class="col-12 mt-3">
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Well done!</h4>
+                                <p> Đọc dữ liệu file điểm thành công.</p>
+                                <hr>
+                                <p class="mb-0"></p>
                             </div>
                         </div>
                     </div>
 <!--                    button-->
 
-                    <div class="row mt-5">
+                    <div class="row mt-5" id="saveRecords" style="display: none">
                         <div class="form-group my-1 col-3">
                             <label class="col-form-label sr-only">Môn học</label>
-                            <select id="subject" class="custom-select">
+                            <select name="subject" id="subject" class="custom-select">
                                 <option value="0" selected="selected">Chọn môn học</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <th:block th:each="subject : ${subjects}">
+                                    <option th:value="${subject.id}" th:text="${subject.name}"></option>
+                                </th:block>
                             </select>
                             <small style="display: none;" id="subjectHelp" class="form-text text-muted">Hãy chọn 1 môn học</small>
                         </div>
@@ -90,7 +77,7 @@
                             <input type="text" class="form-control" id="semester" placeholder="Kỳ học...">
                         </div>
                         <div class="col-auto my-1">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <button onclick="saveScores()" id="btnSaveScores" type="button" class="btn btn-primary">Lưu</button>
                         </div>
                     </div>
                 </div>
@@ -102,7 +89,8 @@
     $(document).ready(function () {
         activeParentMenu("menuScore");
         activeMenu("menuUploadScore");
-    })
+
+    });
     $('#subject').on('change',function () {
         var val = $(this).val();
         if(val==0){
@@ -112,12 +100,76 @@
             $("#subjectHelp").css("display","none");
         }
 
-    })
+    });
 
     $("#file").on('change',function () {
         var fileName = $(this)[0].files[0].name;
         $('#fileName').text(fileName);
-    })
+    });
+    var scoreResult;
+    $('#fileUploadForm').submit(function (e) {
+        e.preventDefault();
+        readData();
+    });
+
+    function readData() {
+        var data = new FormData();
+        var file = $('#file')[0].files[0];
+        data.append('file',file);
+        var btnSubmitLabel = $('#btnSubmitLabel');
+        btnSubmitLabel.text(' Đọc dữ liệu...');
+        $('#btnSubmit').prop('disabled',true);
+        $('#progressReadData').css('display','flex');
+
+        $.ajax({
+            url : "http://localhost:8080/api/scores/upload",
+            type : "post",
+            enctype : "multipart/form-data",
+            dataType : "json",
+            contentType: false,
+            cache: false,
+            timeout: 1000000,
+            processData: false,
+            data : data,
+            success : function (data) {
+                scoreResult = data;
+                btnSubmitLabel.text(" Done");
+                $('#btnSubmit').prop('disabled',false);
+                $('#progressReadData').css('display','none');
+                $('#saveRecords').css('display','flex');
+                $('#fileCheckResult').css('display','flex');
+                $('#fileCheckResult').find('p.mb-0').html('Tổng số bản ghi: <strong>'+data.length+'</strong>');
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        })
+    }
+
+    function saveScores() {
+        $('#progressReadData').css('display','flex');
+        $('#fileCheckResult').hide();
+        var btnSaveScores = $('#btnSaveScores');
+        btnSaveScores.prop('disabled',true);
+        btnSaveScores.text('Đang lưu dữ liệu...');
+        $.ajax({
+           url: 'http://localhost:8080/api/scores/upload/'+$('#subject').val()+','+$('#semester').val(),
+           type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(scoreResult),
+            cache: false,
+            timeout: 600000,
+            success : function (data) {
+                console.log(data);
+            },
+            error : function (res) {
+                console.log(res);
+            }
+
+        });
+
+    }
 </script>
 </body>
 </html>
