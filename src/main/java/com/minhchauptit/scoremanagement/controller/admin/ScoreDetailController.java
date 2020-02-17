@@ -1,6 +1,7 @@
 package com.minhchauptit.scoremanagement.controller.admin;
 
 import com.minhchauptit.scoremanagement.entity.Subject;
+import com.minhchauptit.scoremanagement.service.ScoreDetailService;
 import com.minhchauptit.scoremanagement.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import java.util.List;
 public class ScoreDetailController {
 
     @Autowired
+    private ScoreDetailService scoreDetailService;
+
+    @Autowired
     private SubjectService subjectService;
 
     @GetMapping("/upload")
@@ -24,6 +28,12 @@ public class ScoreDetailController {
         List<Subject> subjectList = subjectService.findAll();
         model.addAttribute("subjects",subjectList);
         return "/view/admin/scoredetail/upload-form";
+    }
+    @GetMapping("/search")
+    public String showSeachScorePage(Model model){
+        List<Integer> semesters = scoreDetailService.findDistinctSemester();
+        model.addAttribute("semesters",semesters);
+        return "/view/admin/scoredetail/search";
     }
 
 }

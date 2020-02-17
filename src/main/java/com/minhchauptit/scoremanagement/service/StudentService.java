@@ -9,5 +9,6 @@ public interface StudentService {
     Student findById(Integer studentId);
     Student save(Student student);
     void delete(Integer studentId);
+    void deleteAll();
     Student findByStudentId(String studentId);
 }

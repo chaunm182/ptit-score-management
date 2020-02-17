@@ -39,6 +39,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public void deleteAll() {
+        studentRespository.deleteAll();
+    }
+
+    @Override
     public Student findByStudentId(String studentId) {
         Optional<Student> optionalStudent = studentRespository.findByStudentId(studentId);
         if(optionalStudent.isPresent()) return optionalStudent.get();

@@ -11,7 +11,6 @@ public class StudentBeanUtil {
         student.setLastName(studentDTO.getLastName());
         student.setStudentId(studentDTO.getStudentId());
         student.setCreatedAt(studentDTO.getCreatedAt());
-        student.setUpdatedAt(studentDTO.getUpdatedAt());
         return student;
     }
 
@@ -22,7 +21,6 @@ public class StudentBeanUtil {
         studentDTO.setLastName(student.getLastName());
         studentDTO.setStudentId(student.getStudentId());
         studentDTO.setCreatedAt(student.getCreatedAt());
-        studentDTO.setUpdatedAt(student.getUpdatedAt());
         return studentDTO;
     }
 }

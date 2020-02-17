@@ -8,7 +8,6 @@ public class StudentDTO {
     private String firstName;
     private String lastName;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
     private ScoreDetailDTO scoreDetailDTO;
 
     public Integer getId() {
@@ -49,14 +48,6 @@ public class StudentDTO {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public ScoreDetailDTO getScoreDetailDTO() {

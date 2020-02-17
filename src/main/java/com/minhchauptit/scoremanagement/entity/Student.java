@@ -14,10 +14,8 @@ public class Student extends Person{
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<ScoreDetail> scoreDetails;
 
     public String getStudentId() {
@@ -34,14 +32,6 @@ public class Student extends Person{
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Set<ScoreDetail> getScoreDetails() {

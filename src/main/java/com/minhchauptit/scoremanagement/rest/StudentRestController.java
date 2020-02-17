@@ -41,6 +41,13 @@ public class StudentRestController {
         return "Delete success student: "+student.getId()+"/"+student.getStudentId();
     }
 
+    @DeleteMapping("/students/all")
+    public String deleteAllStudents(){
+        studentService.deleteAll();
+        return "Delete all successfully";
+    }
+
+
 
 
 }

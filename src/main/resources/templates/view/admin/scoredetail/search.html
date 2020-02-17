@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/admin.html}"
+      lang = "en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tìm kiếm điểm thi</title>
+</head>
+<body>
+<!--replace page title-->
+<h4 layout:fragment="page-title">Quản lý điểm thi</h4>
+
+<!--replace breadcrumbs-->
+<ul layout:fragment="breadcrumbs">
+    <li><a th:href="@{/admin/home}">Trang chủ</a></li>
+    <li><span>Quản lý điểm thi</span></li>
+</ul>
+
+<!--content-->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Tìm kiếm điểm thi</h4>
+<!--                    form search-->
+                    <div class="row">
+                        <div class="col-6 mt-3">
+                            <div class="input-group mb-3">
+                                <input id="studentId" type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nhập mã sinh viên...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chọn kỳ học</button>
+                                    <div id="semesterSelect" class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(374px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                        <th:block th:each="semester : ${semesters}">
+                                            <button class="dropdown-item" th:text="${semester}"></button>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    end form search-->
+<!--                    table result-->
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead class="text-uppercase bg-primary">
+                                        <tr class="text-white">
+                                            <th scope="col">Mã môn học</th>
+                                            <th scope="col">Tên môn học</th>
+                                            <th scope="col">Điểm CC</th>
+                                            <th scope="col">Điểm TBKT</th>
+                                            <th scope="col">Điểm TN-TH</th>
+                                            <th scope="col">Điểm Điểm BTL</th>
+                                            <th scope="col">Điểm Thi</th>
+                                            <th scope="col">Ghi chú</th>
+                                            <th scope="col">Hành động</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script">
+    $(document).ready(function () {
+        activeParentMenu("menuScore");
+        activeMenu("menuSearchScore");
+    });
+
+    $('#semesterSelect').find('button').on('click',function (event) {
+        var studentId = $('#studentId').val().trim();
+        var semester = event.delegateTarget.innerText;
+        if (studentId==''){
+            event.preventDefault();
+            $('#studentId').css('border-color','red');
+        }
+        else{
+            getScoresByStudentIdAndSemester(studentId,semester);
+        }
+    });
+
+    function getScoresByStudentIdAndSemester(studentId,semester) {
+        var tableBody = $('tbody');
+        tableBody.html('');
+        $.ajax({
+            url : "http://localhost:8080/api/scores/"+studentId+','+semester,
+            type : 'GET',
+            dataType : 'json',
+            cache : false,
+            timeout : 300000,
+            success: function (data) {
+                $.each(data, function (index,item) {
+                    tableBody.append(drawScoreDetailRow(item));
+                })
+            },
+            error : function (res) {
+                console.log(res);
+            }
+        });
+    }
+
+    function drawScoreDetailRow(item) {
+        var row = '<tr>\n' +
+            '         <th scope="row">'+item.subjectDTO.subjectId+'</th>\n' +
+            '         <td>'+item.subjectDTO.name+'</td>\n' +
+            '         <td>'+item.attendanceScore+'</td>\n' +
+            '         <td>'+item.midTermExamScore+'</td>\n' +
+            '         <td>'+item.practiceScore+'</td>\n' +
+            '         <td>'+item.assignmentScore+'</td>\n' +
+            '         <td>'+item.finalExamScore+'</td>\n' +
+            '         <td>'+item.description+'</td>\n' +
+            '         <td>\n' +
+            '           <a href="#" class="text-secondary">\n' +
+            '             <i class="fa fa-edit"></i>\n' +
+            '           </a>\n' +
+            '         </td>\n' +
+            '        </tr>';
+        return row;
+
+    }
+</script>
+</body>
+</html>

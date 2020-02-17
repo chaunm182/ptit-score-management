@@ -13,6 +13,7 @@ public class ScoreDetailBeanUtil {
         scoreDetail.setAssignmentScore(scoreDetailDTO.getAssignmentScore());
         scoreDetail.setFinalExamScore(scoreDetailDTO.getFinalExamScore());
         scoreDetail.setSemester(scoreDetailDTO.getSemester());
+        scoreDetail.setDescription(scoreDetailDTO.getDescription());
         scoreDetail.setStudent(StudentBeanUtil.dto2Entity(scoreDetailDTO.getStudentDTO()));
         return scoreDetail;
     }
@@ -26,6 +27,8 @@ public class ScoreDetailBeanUtil {
         scoreDetailDTO.setAssignmentScore(scoreDetail.getAssignmentScore());
         scoreDetailDTO.setFinalExamScore(scoreDetail.getFinalExamScore());
         scoreDetailDTO.setSemester(scoreDetail.getSemester());
+        scoreDetailDTO.setDescription(scoreDetail.getDescription());
+        scoreDetailDTO.setSubjectDTO(SubjectBeanUtil.entity2DTO(scoreDetail.getSubject()));
         scoreDetailDTO.setStudentDTO(StudentBeanUtil.entity2DTO(scoreDetail.getStudent()));
         return scoreDetailDTO;
     }

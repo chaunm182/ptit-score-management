@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
@@ -52,6 +53,26 @@ public class ScoreRestController {
     public String saveScoreDetail(@RequestBody ScoreDetail scoreDetail){
         scoreDetailService.saveScoreDetail(scoreDetail);
         return "Save score: "+scoreDetail.getId();
+    }
+
+    @GetMapping("/scores/{studentId},{semester}")
+    public List<ScoreDetailDTO> findScoresByStudentIdAndSemester(
+            @PathVariable(name = "studentId") String studentId,
+            @PathVariable(name = "semester") Integer semester
+    ){
+        studentId = studentId.toUpperCase();
+        List<ScoreDetail> scoreDetailList =  scoreDetailService.findScoreDetailByStudentIdAndSemester(studentId,semester);
+        List<ScoreDetailDTO> scoreDetailDTOS = new ArrayList<>();
+        for(ScoreDetail scoreDetail : scoreDetailList){
+            scoreDetailDTOS.add(ScoreDetailBeanUtil.entity2Dto(scoreDetail));
+        }
+        return scoreDetailDTOS;
+    }
+
+    @DeleteMapping("/scores/{id}")
+    public String deleteScoreDetail(@PathVariable Integer id){
+        scoreDetailService.deleteById(id);
+        return "Delete success: id = "+id;
     }
 
 

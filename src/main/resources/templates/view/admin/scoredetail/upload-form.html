@@ -156,12 +156,17 @@
            url: 'http://localhost:8080/api/scores/upload/'+$('#subject').val()+','+$('#semester').val(),
            type: 'post',
             contentType: 'application/json',
-            dataType: 'json',
+            dataType: 'text',
             data: JSON.stringify(scoreResult),
             cache: false,
             timeout: 600000,
             success : function (data) {
-                console.log(data);
+                console.log("Thành công");
+               btnSaveScores.text('Done');
+                $('#progressReadData').hide();
+                var responseText =  $('#fileCheckResult');
+                responseText.css('display','flex');
+                responseText.find('p.mb-0').text('Server response: '+data);
             },
             error : function (res) {
                 console.log(res);
