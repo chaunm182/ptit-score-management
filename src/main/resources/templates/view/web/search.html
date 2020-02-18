@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/web.html}"
+      lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem điểm thi PTIT</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-7 mb-3">
+                    <div class="input-group mt-5">
+                        <input id="studentInput" type="text" class="form-control" placeholder="Nhập mã sinh viên hoặc họ tên...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+
+                    <div id="studentSuggest" class="list-group overflow-auto" style="max-height: 250px">
+                        <a href="#" class="list-group-item list-group-item-action"><span class="badge badge-info mr-2">B16DCCN028</span> Nguyễn Minh Châu</a>
+                        <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+                        <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
+                        <a type="button" class="list-group-item list-group-item-action">Cras justo odio</a>
+                        <a type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                        <a type="button" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                        <a type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                        <a type="button" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-3 mb-6">
+                    <div id="scores" class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mb-4">B16DCCN028 - Nguyễn Minh Châu</h4>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped text-center">
+                                        <thead class="text-uppercase bg-deepblue">
+                                        <tr>
+                                            <th scope="col">Mã MH</th>
+                                            <th scope="col">Tên MH</th>
+                                            <th scope="col">CC</th>
+                                            <th scope="col">KT</th>
+                                            <th scope="col">TN-TH</th>
+                                            <th scope="col">BTL</th>
+                                            <th scope="col">Thi</th>
+                                            <th scope="col">TK(10)</th>
+                                            <th scope="col">tk(CH)</th>
+                                            <th scope="col">Ghi chú</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>09 / 07 / 2018</td>
+                                            <td>$120</td>
+                                            <td><i class="ti-trash"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>jone</td>
+                                            <td>09 / 07 / 2018</td>
+                                            <td>$150</td>
+                                            <td><i class="ti-trash"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td>09 / 07 / 2018</td>
+                                            <td>$120</td>
+                                            <td><i class="ti-trash"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>jone</td>
+                                            <td>09 / 07 / 2018</td>
+                                            <td>$150</td>
+                                            <td><i class="ti-trash"></i></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <p class="ml-5">Điểm trung bình học kỳ: <strong class="ml-4">3.45</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script layout:fragment="script">
+    var count = 0;
+    $('#studentInput').on('keyup',function () {
+        count++;
+        console.log(count);
+        $('#studentSuggest').hide();
+        $('#studentSuggest').show(450,function () {
+            $('#scores').fadeTo('fast',0.25);
+        })
+    });
+</script>
+
+</body>
+</html>

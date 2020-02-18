@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-<script layout:fragment="script">
+<script layout:fragment="script" th:inline="javascript">
     $(document).ready(function () {
         activeParentMenu("menuScore");
         activeMenu("menuSearchScore");
@@ -94,8 +94,10 @@
     function getScoresByStudentIdAndSemester(studentId,semester) {
         var tableBody = $('tbody');
         tableBody.html('');
+        var url = /*[[@{/api/scores/}]]*/ '';
+        url = url+ studentId+','+semester;
         $.ajax({
-            url : "http://localhost:8080/api/scores/"+studentId+','+semester,
+            url : url,
             type : 'GET',
             dataType : 'json',
             cache : false,
@@ -120,7 +122,7 @@
             '         <td>'+item.practiceScore+'</td>\n' +
             '         <td>'+item.assignmentScore+'</td>\n' +
             '         <td>'+item.finalExamScore+'</td>\n' +
-            '         <td>'+item.description+'</td>\n' +
+            '         <th scope="row">'+item.description+'</th>\n' +
             '         <td>\n' +
             '           <a href="#" class="text-secondary">\n' +
             '             <i class="fa fa-edit"></i>\n' +
