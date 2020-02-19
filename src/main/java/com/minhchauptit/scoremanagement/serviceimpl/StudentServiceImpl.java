@@ -50,4 +50,9 @@ public class StudentServiceImpl implements StudentService {
         return null;
 
     }
+
+    @Override
+    public List<Student> findStudentsByStudentIdLikeOrFullNameLike(String param) {
+        return studentRespository.findStudentsByStudentIdLikeOrFullNameLike(param);
+    }
 }

@@ -11,4 +11,5 @@ public interface StudentService {
     void delete(Integer studentId);
     void deleteAll();
     Student findByStudentId(String studentId);
+    List<Student> findStudentsByStudentIdLikeOrFullNameLike(String param);
 }

@@ -1,0 +1,46 @@
+.bg-purple{
+    background: #8655FC;
+}
+.bg-purple tr th{
+    color: white;
+}
+
+.bg-deepblue{
+    background-color: #2974AC;
+}
+
+
+
+.list-group-item{
+ padding: 0.55rem 1.25rem;
+    color: black;
+}
+
+.list-group-item:hover{
+    background-color: deepskyblue;
+    color: white;
+
+
+}
+
+thead tr th{
+    color: white;
+}
+
+#studentSuggest{
+    position: absolute;
+    width: 95.5%;
+    z-index: 100;
+    display: none;
+}
+
+.badge{
+    line-height: initial;
+}
+
+div.popover{
+    margin-left: 10px;
+}
+div.popover-body{
+    color: red;
+}

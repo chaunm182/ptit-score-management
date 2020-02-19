@@ -8,11 +8,11 @@
     <title>Xem điểm thi PTIT</title>
 </head>
 <body>
-    <div layout:fragment="content">
+    <div layout:fragment="content" style="height: 553px">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-7 mb-3">
-                    <div class="input-group mt-5">
+                    <div class="input-group mt-5" data-toggle="popover" data-content = "Nhập mã sinh viên hoặc họ tên">
                         <input id="studentInput" type="text" class="form-control" placeholder="Nhập mã sinh viên hoặc họ tên...">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
@@ -20,14 +20,7 @@
                     </div>
 
                     <div id="studentSuggest" class="list-group overflow-auto" style="max-height: 250px">
-                        <a href="#" class="list-group-item list-group-item-action"><span class="badge badge-info mr-2">B16DCCN028</span> Nguyễn Minh Châu</a>
-                        <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
-                        <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
-                        <a type="button" class="list-group-item list-group-item-action">Cras justo odio</a>
-                        <a type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                        <a type="button" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                        <a type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                        <a type="button" class="list-group-item list-group-item-action">Vestibulum at eros</a>
+
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3 mb-6">
@@ -92,18 +85,12 @@
                 </div>
             </div>
         </div>
+        <a id="searchApiUrl" style="display: none" th:href="@{/api/students/search/}"></a>
     </div>
 
+
 <script layout:fragment="script">
-    var count = 0;
-    $('#studentInput').on('keyup',function () {
-        count++;
-        console.log(count);
-        $('#studentSuggest').hide();
-        $('#studentSuggest').show(450,function () {
-            $('#scores').fadeTo('fast',0.25);
-        })
-    });
+
 </script>
 
 </body>

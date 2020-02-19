@@ -1,10 +1,13 @@
 package com.minhchauptit.scoremanagement.rest;
 
+import com.minhchauptit.scoremanagement.dto.StudentDTO;
 import com.minhchauptit.scoremanagement.entity.Student;
 import com.minhchauptit.scoremanagement.service.StudentService;
+import com.minhchauptit.scoremanagement.util.bean.StudentBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,6 +25,16 @@ public class StudentRestController {
     @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable(name = "studentId") Integer studentId){
         return studentService.findById(studentId);
+    }
+
+    @GetMapping("/students/search/{param}")
+    public List<StudentDTO> findStudentsByStudentIdLikeOrFullNameLike(@PathVariable("param") String param){
+        List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(param);
+        List<StudentDTO> result = new ArrayList<>();
+        for(Student student:students){
+            result.add(StudentBeanUtil.entity2DTO(student));
+        }
+        return result;
     }
 
     @PostMapping("/students")

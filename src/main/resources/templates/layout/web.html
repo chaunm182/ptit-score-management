@@ -31,14 +31,14 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"><i class="fa fa-search"></i><span> Điểm thi</span>
+                        <a class="nav-link" th:href="@{/xemdiemthi}"><i class="fa fa-search"></i><span> Điểm thi</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Bảng xếp hạng</a>
+                        <a class="nav-link" href="#"><i class="fa fa-line-chart"></i><span> Bảng xếp hạng</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-user"></i><span> Đăng nhập</span></a>
+                        <a class="nav-link" th:href="@{/login}"><i class="fa fa-user"></i><span> Đăng nhập</span></a>
                     </li>
                 </ul>
             </div>
@@ -64,7 +64,9 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script th:src="@{/web-layer/js/scripts.js}"></script>
     <script layout:fragment="script"></script>
 </body>
 </html>
