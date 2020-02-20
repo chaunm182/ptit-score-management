@@ -22,6 +22,7 @@ studentInput.on('blur',function (e) {
 
 
 
+
 function hideStudentSuggest() {
     $('#studentSuggest').hide(function (e) {
         $('#scores').fadeTo(100,1);
@@ -80,10 +81,19 @@ function addStudentsInSuggestBox() {
 }
 
 function drawStudentRowForSuggestBox(item) {
-    var row = '<a href="#" class="list-group-item list-group-item-action">' +
+    var row = '<a class="list-group-item list-group-item-action">' +
         '<span class="badge badge-info mr-2">'+item.studentId+'</span> '+item.firstName+' '+item.lastName+
         '</a>';
     return row;
 }
+
+$('#studentSuggest').on('click','.list-group-item',function (e) {
+    var text = e.target.text;
+    var studentId = text.substring(0,10);
+    var studentName = text.substring(studentId.length+1,text.length);
+    $('#scores').find('h4.header-title').text(studentId+' - '+studentName);
+    studentInput.val(studentId);
+    //find scores
+});
 
 

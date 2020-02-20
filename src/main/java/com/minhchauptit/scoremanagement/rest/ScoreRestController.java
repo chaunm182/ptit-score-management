@@ -10,6 +10,7 @@ import com.minhchauptit.scoremanagement.service.StudentService;
 import com.minhchauptit.scoremanagement.service.SubjectService;
 import com.minhchauptit.scoremanagement.util.bean.ScoreDetailBeanUtil;
 import com.minhchauptit.scoremanagement.util.file.ExcelUtil;
+import com.minhchauptit.scoremanagement.util.score.ScoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,7 +65,10 @@ public class ScoreRestController {
         List<ScoreDetail> scoreDetailList =  scoreDetailService.findScoreDetailByStudentIdAndSemester(studentId,semester);
         List<ScoreDetailDTO> scoreDetailDTOS = new ArrayList<>();
         for(ScoreDetail scoreDetail : scoreDetailList){
-            scoreDetailDTOS.add(ScoreDetailBeanUtil.entity2Dto(scoreDetail));
+            ScoreDetailDTO scoreDetailDTO = ScoreDetailBeanUtil.entity2Dto(scoreDetail);
+            ScoreUtil.setMark(scoreDetailDTO);
+            ScoreUtil.setLetter(scoreDetailDTO);
+            scoreDetailDTOS.add(scoreDetailDTO);
         }
         return scoreDetailDTOS;
     }
@@ -86,6 +90,7 @@ public class ScoreRestController {
         List<ScoreDetailDTO> result = null;
         try {
             result = excelUtil.readScoreDetailFile(absolutePath);
+            int x;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

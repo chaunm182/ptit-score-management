@@ -14,6 +14,9 @@ public class ScoreDetailDTO {
     private SubjectDTO subjectDTO;
     private StudentDTO studentDTO;
 
+    private Float mark;
+    private String letter;
+
     public ScoreDetailDTO() {
     }
 
@@ -95,5 +98,21 @@ public class ScoreDetailDTO {
 
     public void setStudentDTO(StudentDTO studentDTO) {
         this.studentDTO = studentDTO;
+    }
+
+    public Float getMark() {
+        return mark;
+    }
+
+    public void setMark(Float mark) {
+        this.mark = mark;
+    }
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
     }
 }

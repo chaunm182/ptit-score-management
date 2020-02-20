@@ -19,14 +19,29 @@
                         </div>
                     </div>
 
-                    <div id="studentSuggest" class="list-group overflow-auto" style="max-height: 250px">
-
+                    <div  id="studentSuggest" class="list-group overflow-auto">
+<!--                        students data here-->
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3 mb-6">
                     <div id="scores" class="card">
                         <div class="card-body">
-                            <h4 class="header-title mb-4">B16DCCN028 - Nguyễn Minh Châu</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="header-title mb-3 ml-1"></h4>
+                                </div>
+                                <div class="col-2"></div>
+                                <div class="col-4 float-right">
+                                    <div class="form-group float-right text-right">
+                                        <label class="col-form-label sr-only">Kỳ học</label>
+                                        <select id="semester" class="form-control form-inline">
+                                            <option selected>20191</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-striped text-center">
@@ -34,6 +49,7 @@
                                         <tr>
                                             <th scope="col">Mã MH</th>
                                             <th scope="col">Tên MH</th>
+                                            <th scope="col">Số TC</th>
                                             <th scope="col">CC</th>
                                             <th scope="col">KT</th>
                                             <th scope="col">TN-TH</th>

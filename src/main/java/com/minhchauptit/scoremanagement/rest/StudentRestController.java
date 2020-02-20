@@ -29,6 +29,7 @@ public class StudentRestController {
 
     @GetMapping("/students/search/{param}")
     public List<StudentDTO> findStudentsByStudentIdLikeOrFullNameLike(@PathVariable("param") String param){
+        param = param.trim();
         List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(param);
         List<StudentDTO> result = new ArrayList<>();
         for(Student student:students){
