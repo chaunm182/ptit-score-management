@@ -4,8 +4,9 @@ studentInput.on('keyup',function () {
         hideStudentSuggest();
         showPopoverAndHightLightInput();
     }
-    else if(studentInput.val().trim().length >=2){
+    else if(studentInput.val().trim().length >=3){
         showStudentSuggest();
+        destroyPoperAndHightLightInput();
     }
 });
 
@@ -25,7 +26,7 @@ studentInput.on('blur',function (e) {
 
 function hideStudentSuggest() {
     $('#studentSuggest').hide(function (e) {
-        $('#scores').fadeTo(100,1);
+        $('#scores').css('opacity',1);
     });
 
 }
@@ -37,7 +38,7 @@ function showStudentSuggest() {
     addStudentsInSuggestBox();
     //
     studentSuggestBox.show(450,function () {
-        $('#scores').fadeTo('fast',0.25);
+        $('#scores').css('opacity',0.25);
     })
 }
 
@@ -88,12 +89,70 @@ function drawStudentRowForSuggestBox(item) {
 }
 
 $('#studentSuggest').on('click','.list-group-item',function (e) {
+    if($('#scores').css('display','none')){
+        $('#scores').css('display','flex');
+    }
+    //set input
+    studentInput.prop('disabled',true);
+    //set progress bar property
+    var progressBar = $('div.card-header');
+    progressBar.css('display','block');
+    //set table body
+    var tableBody = $('tbody');
+    tableBody.html('');
+    //set heading
     var text = e.target.text;
     var studentId = text.substring(0,10);
     var studentName = text.substring(studentId.length+1,text.length);
     $('#scores').find('h4.header-title').text(studentId+' - '+studentName);
     studentInput.val(studentId);
+
     //find scores
+    var searchScoresApiUrl = $('#getTranscriptApiUrl').prop('href')+studentId+','+$('#semester').val();
+    $.ajax({
+        url: searchScoresApiUrl,
+        type: 'get',
+        contentType: false,
+        dataType: 'json',
+        cache: false,
+        timeout: 100000,
+        success : function (data) {
+            studentInput.prop('disabled',false);
+            progressBar.hide();
+            var listScores = data.listScore;
+            $.each(listScores,function (index,item) {
+                tableBody.append(drawScoreRow(item));
+
+            });
+            $('#termPointAverage').text(data.termPointAverage);
+        },
+        error : function (res) {
+            console.log(res);
+        }
+    })
 });
+
+function drawScoreRow(item) {
+    var attendanceScore = (item.attendanceScore!=null) ? item.attendanceScore : '';
+    var midTermScore = (item.midTermExamScore!=null) ? item.midTermExamScore : '';
+    var practiceScore = (item.practiceScore!=null) ? item.practiceScore : '';
+    var assignmentScore = (item.assignmentScore!=null) ? item.assignmentScore : '';
+    var finalExamScore = (item.finalExamScore!=null) ? item.finalExamScore : '';
+    var row = '<tr>\n' +
+        '        <th scope="row">'+item.subjectDTO.subjectId+'</th>\n' +
+        '        <td>'+item.subjectDTO.name+'</td>\n' +
+        '        <td>'+item.subjectDTO.credit+'</td>\n' +
+        '        <td>'+attendanceScore+'</td>\n' +
+        '        <td>'+midTermScore+'</td>\n' +
+        '        <td>'+practiceScore+'</td>\n' +
+        '        <td>'+assignmentScore+'</td>\n' +
+        '        <td>'+finalExamScore+'</td>\n' +
+        '        <td>'+item.mark+'</td>\n' +
+        '        <th scope="row">'+item.letter+'</th>\n' +
+        '        <td>'+item.description+'</td>\n' +
+        '      </tr>';
+    return row;
+
+}
 
 

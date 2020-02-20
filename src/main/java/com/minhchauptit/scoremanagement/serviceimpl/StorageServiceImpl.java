@@ -8,18 +8,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.logging.Logger;
 
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    @Value("${upload.path.excel}")
-    private String uploadPath;
+    private Logger logger = Logger.getLogger(getClass().getName());
+
+    private String uploadPath = System.getProperty("user.home")+ File.separator +"upload"+File.separator+"excel";
+
+    @PostConstruct
+    public void createDir(){
+        File file = new File(uploadPath);
+        if(!file.exists()){
+            file.mkdir();
+            logger.info("Make directory: "+file.getAbsolutePath());
+        }
+        else{
+            logger.info("Directory for save file already exists: "+file.getAbsolutePath());
+        }
+    }
 
     @Override
     public String uploadFile(MultipartFile file) {
@@ -27,7 +43,7 @@ public class StorageServiceImpl implements StorageService {
         String fileName = file.getOriginalFilename();
         try {
             InputStream inputStream = file.getInputStream();
-            Path path = Paths.get(uploadPath+fileName);
+            Path path = Paths.get(uploadPath+File.separator+fileName);
             Files.copy(inputStream, path,StandardCopyOption.REPLACE_EXISTING);
             return path.toAbsolutePath().toString();
         } catch (IOException e) {

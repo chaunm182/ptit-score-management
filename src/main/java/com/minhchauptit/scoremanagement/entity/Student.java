@@ -15,7 +15,7 @@ public class Student extends Person{
     private Timestamp createdAt;
 
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<ScoreDetail> scoreDetails;
 
     public String getStudentId() {

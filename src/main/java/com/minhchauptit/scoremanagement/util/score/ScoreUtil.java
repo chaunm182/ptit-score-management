@@ -2,6 +2,9 @@ package com.minhchauptit.scoremanagement.util.score;
 
 import com.minhchauptit.scoremanagement.dto.ScoreDetailDTO;
 import com.minhchauptit.scoremanagement.dto.SubjectDTO;
+import com.minhchauptit.scoremanagement.dto.Transcript;
+
+import java.util.List;
 
 public class ScoreUtil {
     public static String convertMarkToLetter(Float mark){
@@ -66,4 +69,5 @@ public class ScoreUtil {
         mark = Math.round(mark);
         return mark/10;
     }
+
 }

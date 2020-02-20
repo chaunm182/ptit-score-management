@@ -16,10 +16,7 @@ public class Person {
     @Column(name = "last_name")
     private String lastName;
 
-    public Person() {
-    }
-
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
     private Account account;
 
     public Integer getId() {

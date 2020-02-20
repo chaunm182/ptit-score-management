@@ -24,7 +24,13 @@
                     </div>
                 </div>
                 <div class="col-lg-12 mt-3 mb-6">
-                    <div id="scores" class="card">
+                    <div id="scores" class="card" style="display: none">
+                        <div class="card-header text-center">
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                            <div class="text-center mt-2">Loading dữ liệu. Đợi xíu...</div>
+                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
@@ -61,47 +67,21 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>09 / 07 / 2018</td>
-                                            <td>$120</td>
-                                            <td><i class="ti-trash"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>jone</td>
-                                            <td>09 / 07 / 2018</td>
-                                            <td>$150</td>
-                                            <td><i class="ti-trash"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>09 / 07 / 2018</td>
-                                            <td>$120</td>
-                                            <td><i class="ti-trash"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>jone</td>
-                                            <td>09 / 07 / 2018</td>
-                                            <td>$150</td>
-                                            <td><i class="ti-trash"></i></td>
-                                        </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-white">
-                            <p class="ml-5">Điểm trung bình học kỳ: <strong class="ml-4">3.45</strong></p>
+                        <div class="card-footer bg-white text-center">
+                            <p class="ml-5">Điểm trung bình học kỳ: <strong id="termPointAverage" class="ml-2"></strong></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <a id="searchApiUrl" style="display: none" th:href="@{/api/students/search/}"></a>
+        <a id="getTranscriptApiUrl" style="display: none" th:href="@{/api/scores/transcript/}"></a>
     </div>
 
 

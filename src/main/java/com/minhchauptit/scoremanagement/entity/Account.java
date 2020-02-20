@@ -32,7 +32,7 @@ public class Account {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
 

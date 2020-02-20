@@ -1,6 +1,7 @@
 package com.minhchauptit.scoremanagement.rest;
 
 import com.minhchauptit.scoremanagement.dto.ScoreDetailDTO;
+import com.minhchauptit.scoremanagement.dto.Transcript;
 import com.minhchauptit.scoremanagement.entity.ScoreDetail;
 import com.minhchauptit.scoremanagement.entity.Student;
 import com.minhchauptit.scoremanagement.entity.Subject;
@@ -71,6 +72,39 @@ public class ScoreRestController {
             scoreDetailDTOS.add(scoreDetailDTO);
         }
         return scoreDetailDTOS;
+    }
+
+    @GetMapping("/scores/transcript/{studentId},{semester}")
+    public Transcript getTranscriptByStudentIdAndSemester(
+            @PathVariable(name = "studentId") String studentId,
+            @PathVariable(name = "semester") Integer semester
+    ){
+        Transcript transcript = new Transcript();
+        studentId = studentId.toUpperCase();
+        List<ScoreDetail> scoreDetailList =  scoreDetailService.findScoreDetailByStudentIdAndSemester(studentId,semester);
+        List<ScoreDetailDTO> scoreDetailDTOS = new ArrayList<>();
+        float termPointAverage = (float) 0.0;
+        int credits = 0;
+        for(ScoreDetail scoreDetail : scoreDetailList){
+            ScoreDetailDTO scoreDetailDTO = ScoreDetailBeanUtil.entity2Dto(scoreDetail);
+            ScoreUtil.setMark(scoreDetailDTO);
+            ScoreUtil.setLetter(scoreDetailDTO);
+            scoreDetailDTOS.add(scoreDetailDTO);
+            float point4 = ScoreUtil.convertLetterToPoint4(scoreDetailDTO.getLetter());
+            int credit = scoreDetailDTO.getSubjectDTO().getCredit();
+            termPointAverage+=(point4*credit);
+            credits+=credit;
+        }
+        termPointAverage = termPointAverage/credits;
+        //round
+        termPointAverage = termPointAverage*100;
+        termPointAverage = Math.round(termPointAverage);
+        termPointAverage/=100;
+        //set props
+        transcript.setListScore(scoreDetailDTOS);
+        transcript.setTermPointAverage(termPointAverage);
+        return transcript;
+
     }
 
     @DeleteMapping("/scores/{id}")
