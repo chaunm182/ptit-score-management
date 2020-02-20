@@ -9,6 +9,6 @@ public class SearchController {
 
     @GetMapping("/")
     public String showSearchPage(){
-        return "view/web/search";
+        return "/view/web/search";
     }
 }
