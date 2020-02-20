@@ -1,4 +1,7 @@
 var studentInput = $('#studentInput');
+$(document).ready(function () {
+    studentInput.focus();
+})
 studentInput.on('keyup',function () {
     if (studentInput.val().trim().length == 0){
         hideStudentSuggest();
@@ -37,7 +40,7 @@ function showStudentSuggest() {
     //add data for student suggest here
     addStudentsInSuggestBox();
     //
-    studentSuggestBox.show(450,function () {
+    studentSuggestBox.show(480,function () {
         $('#scores').css('opacity',0.25);
     })
 }
@@ -88,7 +91,7 @@ function drawStudentRowForSuggestBox(item) {
     return row;
 }
 
-$('#studentSuggest').on('click','.list-group-item',function (e) {
+$('#studentSuggest').on('click','a.list-group-item',function (e) {
     if($('#scores').css('display','none')){
         $('#scores').css('display','flex');
     }
@@ -124,7 +127,7 @@ $('#studentSuggest').on('click','.list-group-item',function (e) {
                 tableBody.append(drawScoreRow(item));
 
             });
-            $('#termPointAverage').text(data.termPointAverage);
+            $('#termPointAverage').text(data.termPointAverage.toFixed(2));
         },
         error : function (res) {
             console.log(res);
