@@ -85,7 +85,7 @@
         </div>
     </div>
 </div>
-<script layout:fragment="script">
+<script layout:fragment="script" th:inline="javascript">
     $(document).ready(function () {
         activeParentMenu("menuScore");
         activeMenu("menuUploadScore");
@@ -111,6 +111,7 @@
         e.preventDefault();
         readData();
     });
+    var url = /*[[@{/api/scores/upload}]]*/'';
 
     function readData() {
         var data = new FormData();
@@ -122,7 +123,7 @@
         $('#progressReadData').css('display','flex');
 
         $.ajax({
-            url : "http://localhost:8080/api/scores/upload",
+            url : url,
             type : "post",
             enctype : "multipart/form-data",
             dataType : "json",
@@ -152,8 +153,9 @@
         var btnSaveScores = $('#btnSaveScores');
         btnSaveScores.prop('disabled',true);
         btnSaveScores.text('Đang lưu dữ liệu...');
+        var saveUrl = url+'/'+$('#subject').val()+','+$('#semester').val();
         $.ajax({
-           url: 'http://localhost:8080/api/scores/upload/'+$('#subject').val()+','+$('#semester').val(),
+           url: saveUrl,
            type: 'post',
             contentType: 'application/json',
             dataType: 'text',
