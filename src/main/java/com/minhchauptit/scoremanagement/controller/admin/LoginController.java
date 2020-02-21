@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
     @GetMapping("/login")
     public String showLoginPage(){
-        return "/view/admin/login";
+        return "view/admin/login";
     }
 
     @GetMapping("/access-denied")
     public String showAccessDeniedPage(){
-        return "/view/admin/access-denied";
+        return "view/admin/access-denied";
     }
 }

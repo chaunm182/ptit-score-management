@@ -30,14 +30,14 @@ public class SubjectController {
                                   @RequestParam(name = "size" , required = false, defaultValue = "8") Integer size){
         long totalPages = subjectService.calculateTotalPages(size);
         model.addAttribute("totalPages",totalPages);
-        return "/view/admin/subject/list";
+        return "view/admin/subject/list";
     }
 
     @GetMapping("/add")
     public String showFormForAdd(Model model){
         Subject subject = new Subject();
         model.addAttribute("subject",subject);
-        return "/view/admin/subject/save";
+        return "view/admin/subject/save";
     }
 
     @PostMapping("/save")
@@ -59,9 +59,9 @@ public class SubjectController {
         Subject subject  = subjectService.findById(id);
         if(subject!=null){
             model.addAttribute("subject",subject);
-            return "/view/admin/subject/save";
+            return "view/admin/subject/save";
         }
-        else return "/view/admin/404";
+        else return "view/admin/404";
 
     }
 
@@ -71,7 +71,7 @@ public class SubjectController {
             subjectService.deleteById(id);
         }catch (EmptyResultDataAccessException ex){
             logger.warning("Subject not found - id = "+id);
-            return "/view/admin/404";
+            return "view/admin/404";
         }
 
         return "redirect:/admin/subject/list?delete_success";

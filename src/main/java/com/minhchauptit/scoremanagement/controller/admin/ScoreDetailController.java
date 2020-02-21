@@ -27,13 +27,13 @@ public class ScoreDetailController {
     public String showFormForUpload(Model model){
         List<Subject> subjectList = subjectService.findAll();
         model.addAttribute("subjects",subjectList);
-        return "/view/admin/scoredetail/upload-form";
+        return "view/admin/scoredetail/upload-form";
     }
     @GetMapping("/search")
     public String showSeachScorePage(Model model){
         List<Integer> semesters = scoreDetailService.findDistinctSemester();
         model.addAttribute("semesters",semesters);
-        return "/view/admin/scoredetail/search";
+        return "view/admin/scoredetail/search";
     }
 
 }
