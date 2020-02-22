@@ -7,15 +7,15 @@ import com.minhchauptit.scoremanagement.dto.Transcript;
 import java.util.List;
 
 public class ScoreUtil {
-    public static String convertMarkToLetter(Float mark){
-        if(mark>=9.0 && mark<=10.0) return "A+";
-        else if(mark>=8.5 && mark<=8.9) return "A";
-        else if(mark>=8.0 && mark<=8.4) return "B+";
-        else if(mark>=7.0 && mark<=7.9) return "B";
-        else if(mark>=6.5 && mark<=6.9) return "C+";
-        else if(mark>=5.5 && mark<=6.4) return "C";
-        else if(mark>=5.0 && mark<=5.4) return "D+";
-        else if(mark>=4.0 && mark <=4.9) return "D";
+    public static String convertMarkToLetter(float mark){
+        if(mark>=(float)9.0 && mark<=(float)10.0) return "A+";
+        else if(mark>=(float)8.5 && mark<=(float)8.9) return "A";
+        else if(mark>=(float)8.0 && mark<=(float)8.4) return "B+";
+        else if(mark>=(float)7.0 && mark<=(float)7.9) return "B";
+        else if(mark>=(float)6.5 && mark<=(float)6.9) return "C+";
+        else if(mark>=(float)5.5 && mark<=(float)6.4) return "C";
+        else if(mark>=(float)5.0 && mark<=(float)5.4) return "D+";
+        else if(mark>=(float)4.0 && mark <=(float)4.9) return "D";
         return "F";
     }
 

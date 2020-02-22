@@ -1,10 +1,14 @@
 package com.minhchauptit.scoremanagement.serviceimpl;
 
 import com.minhchauptit.scoremanagement.entity.Student;
+import com.minhchauptit.scoremanagement.repository.CustomizeStudentRepository;
 import com.minhchauptit.scoremanagement.repository.StudentRespository;
 import com.minhchauptit.scoremanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +18,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRespository studentRespository;
+
+    @Autowired
+    private CustomizeStudentRepository customizeStudentRepository;
 
     @Override
     public List<Student> findAll() {
@@ -28,6 +35,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @CacheEvict(value = "students", allEntries = true)
     public Student save(Student student) {
         return studentRespository.save(student);
 
@@ -52,7 +60,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
+    @Cacheable(value = "students", condition = "#param.length() <8")
     public List<Student> findStudentsByStudentIdLikeOrFullNameLike(String param) {
-        return studentRespository.findStudentsByStudentIdLikeOrFullNameLike(param);
+        return customizeStudentRepository.findStudentsByStudentIdLikeOrFullNameLike(param);
     }
 }

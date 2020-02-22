@@ -76,7 +76,6 @@ function addStudentsInSuggestBox() {
                 });
             }
 
-
         },
         error : function (res) {
             console.log(res);

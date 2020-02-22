@@ -8,19 +8,14 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title th:fragment="title">Trang quản trị</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/icon/favicon-32x32.png}">
-        <link rel="icon" type="image/x-icon" th:href="@{/images/icon/favicon-32x32.png}">
+        <link rel="shortcut icon" th:href="@{/favicon.ico}">
+        <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
         <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
         <link rel="stylesheet" th:href="@{/css/metisMenu.css}">
         <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
         <link rel="stylesheet" th:href="@{/css/slicknav.min.css}">
-        <!-- Start datatable css -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
         <!-- others css -->
         <link rel="stylesheet" th:href="@{/css/typography.css}">
         <link rel="stylesheet" th:href="@{/css/default-css.css}">
@@ -43,15 +38,15 @@
         <!-- page container area start -->
         <div class="page-container">
             <!-- sidebar menu area start -->
-            <th:block th:insert="~{/fragment/admin/menu.html :: div.sidebar-menu}"/>
+            <th:block th:insert="~{fragment/admin/menu.html :: div.sidebar-menu}"/>
             <!-- sidebar menu area end -->
             <!-- main content area start -->
             <div class="main-content">
                 <!-- header area start -->
-                <th:block th:insert="~{/fragment/admin/header.html :: div.header-area}"/>
+                <th:block th:insert="~{fragment/admin/header.html :: div.header-area}"/>
                 <!-- header area end -->
                 <!-- page title area start -->
-                <th:block th:insert="~{/fragment/admin/page-title.html :: div.page-title-area}"/>
+                <th:block th:insert="~{fragment/admin/page-title.html :: div.page-title-area}"/>
                 <!-- page title area end -->
                 <div class="main-content-inner" layout:fragment="content">
                     <!-- MAIN CONTENT GOES HERE -->
@@ -59,7 +54,7 @@
             </div>
             <!-- main content area end -->
             <!-- footer area start-->
-            <footer th:replace="~{/fragment/admin/footer.html :: footer}"/>
+            <footer th:replace="~{fragment/admin/footer.html :: footer}"/>
             <!-- footer area end-->
         </div>
         <!-- page container area end -->

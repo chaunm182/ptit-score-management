@@ -10,9 +10,4 @@ import java.util.Optional;
 
 public interface StudentRespository extends JpaRepository<Student,Integer> {
     Optional<Student> findByStudentId(String studentId);
-
-    @Query(value = "FROM Student s WHERE s.studentId LIKE %:param% OR " +
-            "CONCAT(s.firstName,' ',s.lastName) LIKE %:param% ORDER BY s.studentId")
-    List<Student> findStudentsByStudentIdLikeOrFullNameLike(@Param("param") String param);
-
 }
