@@ -32,8 +32,7 @@ public class Account {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
+    @OneToOne(mappedBy = "account",fetch = FetchType.LAZY)
     private Person person;
 
     @ManyToMany(mappedBy = "accounts", fetch = FetchType.EAGER)

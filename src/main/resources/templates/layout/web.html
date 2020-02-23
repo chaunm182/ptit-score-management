@@ -19,60 +19,62 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/web-layer/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/web-layer/css/sticky-footer.css}">
 
 
 </head>
 <body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-deepblue static-top">
+    <header>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-deepblue fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">Xem điểm thi | PTIT</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/xemdiemthi}"><i class="fa fa-search"></i><span> Điểm thi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-line-chart"></i><span> Bảng xếp hạng</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/login}"><i class="fa fa-user"></i><span> Đăng nhập</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main role="main" class="container">
+        <!--     Page Content -->
         <div class="container">
-            <a class="navbar-brand" href="#">Xem điểm thi | PTIT</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/xemdiemthi}"><i class="fa fa-search"></i><span> Điểm thi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-line-chart"></i><span> Bảng xếp hạng</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/login}"><i class="fa fa-user"></i><span> Đăng nhập</span></a>
-                    </li>
-                </ul>
+            <div class="row">
+                <div class="col-lg-12" layout:fragment="content">
+
+                </div>
             </div>
         </div>
-    </nav>
+    </main>
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12" layout:fragment="content">
-
+    <footer class="footer bg-deepblue text-light">
+        <div class="container">
+            <div class="text-center">
+                <small>© Copyright 2020. By <a href="#" class="text-light">dtptit.online</a></small>
             </div>
         </div>
-    </div>
 
-    <footer class="bg-deepblue mt-5 text-light">
-        <div class="row pb--10">
-            <div class="col-md-7">
-                <p>1. Điểm thi trên đây chỉ sử dụng để tham khảo. Các bạn nên tải file điểm thi từ trang thông tin của trung tâm khảo thí để đảm bảo tính chính xác.</p>
-                <p>2. Trang web hiện đang được phát triển, nếu có bất cứ vấn đề gì về trang web, điểm thi,.. Vui lòng báo lại cho mình tại địa chỉ minhchauptit@outlook.com. Xin chân thành cảm ơn !</p>
-            </div>
-        </div>
-        <div class="footer-area text-center">
-            <small>© Copyright 2020. By <a href="#" class="text-light">dtptit.online</a></small>
-        </div>
     </footer>
 
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script th:src="@{/web-layer/js/scripts.js}"></script>
     <script layout:fragment="script"></script>

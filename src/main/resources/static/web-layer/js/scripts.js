@@ -3,23 +3,23 @@ $(document).ready(function () {
     studentInput.focus();
 })
 studentInput.on('keyup',function () {
-    if (studentInput.val().trim().length == 0){
+    if (studentInput.val().trim().length < 3){
         hideStudentSuggest();
-        showPopoverAndHightLightInput();
+        studentInput.prop('class','form-control border-danger');
     }
     else if(studentInput.val().trim().length >=3){
         showStudentSuggest();
-        destroyPoperAndHightLightInput();
+        studentInput.prop('class','form-control');
     }
 });
 
 
 studentInput.on('blur',function (e) {
-    if (studentInput.val().trim().length == 0){
-        showPopoverAndHightLightInput();
+    if (studentInput.val().trim().length < 3){
+        studentInput.prop('class','form-control border-danger');
     }
-    else{
-        destroyPoperAndHightLightInput();
+    else if(studentInput.val().trim().length >=3){
+        studentInput.prop('class','form-control');
     }
     hideStudentSuggest();
 });
@@ -40,19 +40,9 @@ function showStudentSuggest() {
     //add data for student suggest here
     addStudentsInSuggestBox();
     //
-    studentSuggestBox.show(480,function () {
+    studentSuggestBox.show(350,function () {
         $('#scores').css('opacity',0.25);
     })
-}
-
-function showPopoverAndHightLightInput() {
-    studentInput.prop('class','form-control border-danger');
-    $('div.input-group').popover('show');
-}
-
-function destroyPoperAndHightLightInput() {
-    studentInput.prop('class','form-control');
-    $('div.input-group').popover('hide');
 }
 
 function addStudentsInSuggestBox() {
@@ -91,14 +81,9 @@ function drawStudentRowForSuggestBox(item) {
 }
 
 $('#studentSuggest').on('click','a.list-group-item',function (e) {
-    if($('#scores').css('display','none')){
-        $('#scores').css('display','flex');
-    }
+    var scoresDiv = $('#scores');
     //set input
     studentInput.prop('disabled',true);
-    //set progress bar property
-    var progressBar = $('div.card-header');
-    progressBar.css('display','block');
     //set table body
     var tableBody = $('tbody');
     tableBody.html('');
@@ -106,7 +91,6 @@ $('#studentSuggest').on('click','a.list-group-item',function (e) {
     var text = e.target.text;
     var studentId = text.substring(0,10);
     var studentName = text.substring(studentId.length+1,text.length);
-    $('#scores').find('h4.header-title').text(studentId+' - '+studentName);
     studentInput.val(studentId);
 
     //find scores
@@ -118,15 +102,21 @@ $('#studentSuggest').on('click','a.list-group-item',function (e) {
         dataType: 'json',
         cache: false,
         timeout: 100000,
+        beforeSend : function(){
+            scoresDiv.slideUp(450,function () {
+                $('#scores').css('opacity',1);
+            });
+            scoresDiv.find('h4.header-title').text(studentId+' - '+studentName);
+        },
         success : function (data) {
             studentInput.prop('disabled',false);
-            progressBar.hide();
             var listScores = data.listScore;
             $.each(listScores,function (index,item) {
                 tableBody.append(drawScoreRow(item));
 
             });
             $('#termPointAverage').text(data.termPointAverage.toFixed(2));
+            scoresDiv.slideDown(450);
         },
         error : function (res) {
             console.log(res);

@@ -24,13 +24,14 @@ public class StudentRestController {
 
     @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable(name = "studentId") Integer studentId){
-        return studentService.findById(studentId);
+        Student student = studentService.findById(studentId);
+        return student;
     }
 
     @GetMapping("/students/search/{param}")
     public List<StudentDTO> findStudentsByStudentIdLikeOrFullNameLike(@PathVariable("param") String param){
-        param = param.trim();
-        List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(param);
+        String search = param.trim().toUpperCase();
+        List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(search);
         List<StudentDTO> result = new ArrayList<>();
         for(Student student:students){
             result.add(StudentBeanUtil.entity2DTO(student));

@@ -31,7 +31,7 @@ public class ScoreDetail {
     @Column(name = "semester")
     private Integer semester;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
 
