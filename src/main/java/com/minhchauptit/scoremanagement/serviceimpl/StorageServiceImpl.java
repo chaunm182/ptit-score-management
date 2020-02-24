@@ -23,7 +23,7 @@ public class StorageServiceImpl implements StorageService {
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
-    private String uploadPath = System.getProperty("user.home")+ File.separator +"upload"+File.separator+"excel";
+    private String uploadPath = System.getProperty("user.home")+ File.separator +"upload";
 
     @PostConstruct
     public void createDir(){
