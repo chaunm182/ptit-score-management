@@ -17,7 +17,7 @@ public class WorkbookFactory {
             if(file.getName().endsWith(".xls")){
                 return new HSSFWorkbook(fileInputStream);
             }
-            else if(file.getName().endsWith(".xlsx")){
+            else if(file.getName().endsWith(".xlsx") || file.getName().endsWith(".xlsm")){
                 return new XSSFWorkbook(fileInputStream);
             }
             else throw new IncorrectExcelFileTypeException("Incorrect file type");

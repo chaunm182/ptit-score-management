@@ -27,6 +27,7 @@ public class ExcelUtil {
             throw new FileNotFoundException("file not found");
         }
         Workbook workbook = WorkbookFactory.getWorkbook(file);
+        getSheet(workbook);
         //get first sheet
         Sheet sheet = workbook.getSheetAt(0);
         //get properties
@@ -40,6 +41,10 @@ public class ExcelUtil {
         logger.info("numbers of record: "+result.size()+ " records");
 
         return result;
+    }
+
+    private void getSheet(Workbook workbook){
+        logger.info("Number of Sheets: " +workbook.getNumberOfSheets());
     }
 
 

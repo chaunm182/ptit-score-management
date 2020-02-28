@@ -22,7 +22,7 @@ public class CustomizeStudentRepositoryImpl implements CustomizeStudentRepositor
     public List<Student> findStudentsByStudentIdLikeOrFullNameLike(String searchInfo) {
         List<Student> result = null;
         StringBuilder queryString = new StringBuilder("FROM Student s WHERE s.studentId LIKE :search OR");
-        queryString.append(" CONCAT(s.firstName,' ',s.lastName) LIKE :search ORDER BY s.studentId");
+        queryString.append(" CONCAT(s.firstName,' ',s.lastName) LIKE :search");
         Query query = entityManager.createQuery(queryString.toString(),Student.class);
         query.setParameter("search","%"+searchInfo+"%");
         query.setMaxResults(limitRecord);

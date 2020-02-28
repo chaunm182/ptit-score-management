@@ -1,10 +1,16 @@
 package com.minhchauptit.scoremanagement.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minhchauptit.scoremanagement.dto.StudentDTO;
+import com.minhchauptit.scoremanagement.dto.StudentSuggestionDTO;
 import com.minhchauptit.scoremanagement.entity.Student;
+import com.minhchauptit.scoremanagement.response.StudentSuggestionResponse;
 import com.minhchauptit.scoremanagement.service.StudentService;
 import com.minhchauptit.scoremanagement.util.bean.StudentBeanUtil;
+import com.minhchauptit.scoremanagement.util.bean.StudentSuggestionBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,15 +34,18 @@ public class StudentRestController {
         return student;
     }
 
-    @GetMapping("/students/search/{param}")
-    public List<StudentDTO> findStudentsByStudentIdLikeOrFullNameLike(@PathVariable("param") String param){
-        String search = param.trim().toUpperCase();
-        List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(search);
-        List<StudentDTO> result = new ArrayList<>();
+    @GetMapping("/students/search")
+    public ResponseEntity<StudentSuggestionResponse> findStudentsByStudentIdLikeOrFullNameLike(
+            @RequestParam("query") String param){
+        List<Student> students = studentService.findStudentsByStudentIdLikeOrFullNameLike(param);
+        List<StudentSuggestionDTO> dtos = new ArrayList<>();
         for(Student student:students){
-            result.add(StudentBeanUtil.entity2DTO(student));
+            dtos.add(StudentSuggestionBeanUtil.entity2DTO(student));
         }
-        return result;
+        StudentSuggestionResponse response = new StudentSuggestionResponse();
+        response.setSuggestion(dtos);
+
+        return new ResponseEntity<StudentSuggestionResponse>(response, HttpStatus.OK);
     }
 
     @PostMapping("/students")

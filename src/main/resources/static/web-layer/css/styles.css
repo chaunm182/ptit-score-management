@@ -9,14 +9,32 @@
     background-color: #2974AC;
 }
 
-
-
-.list-group-item{
- padding: 0.55rem 1.25rem;
-    color: black;
+.autocomplete-suggestions{
+    overflow-y: auto;
+    max-height: 250px;
 }
 
-a.list-group-item:hover{
+.autocomplete-no-suggestion{
+    margin-top: 10px;
+    color: red;
+    text-align: center;
+}
+
+.autocomplete-suggestion{
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.125);
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+
+}
+.autocomplete-selected{
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+
+}
+
+.autocomplete-suggestion:hover{
     background-color: deepskyblue;
     color: white;
     cursor: pointer;

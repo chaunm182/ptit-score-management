@@ -1,97 +1,17 @@
-var studentInput = $('#studentInput');
-$(document).ready(function () {
-    studentInput.focus();
-})
-studentInput.on('keyup',function () {
-    if (studentInput.val().trim().length < 3){
-        hideStudentSuggest();
-        studentInput.prop('class','form-control border-danger');
-    }
-    else if(studentInput.val().trim().length >=3){
-        showStudentSuggest();
-        studentInput.prop('class','form-control');
-    }
-});
+$('#studentInput').focus();
 
+var scoresDiv = $('#scores');
 
-studentInput.on('blur',function (e) {
-    if (studentInput.val().trim().length < 3){
-        studentInput.prop('class','form-control border-danger');
-    }
-    else if(studentInput.val().trim().length >=3){
-        studentInput.prop('class','form-control');
-    }
-    hideStudentSuggest();
-});
-
-
-
-
-function hideStudentSuggest() {
-    $('#studentSuggest').hide(function (e) {
-        $('#scores').css('opacity',1);
-    });
-
-}
-
-function showStudentSuggest() {
-    var studentSuggestBox = $('#studentSuggest');
-    studentSuggestBox.hide();
-    //add data for student suggest here
-    addStudentsInSuggestBox();
-    //
-    studentSuggestBox.show(350,function () {
-        $('#scores').css('opacity',0.25);
-    })
-}
-
-function addStudentsInSuggestBox() {
-    var searchApiUrl = $('#searchApiUrl').prop('href');
-    var url = searchApiUrl+$('#studentInput').val();
-    $.ajax({
-        url : url,
-        dataType : 'json',
-        contentType : false,
-        type : 'get',
-        cache : false,
-        timeout : 100000,
-        success : function (data) {
-            $('#studentSuggest').html('');
-            if(data.length==0){
-                $('#studentSuggest').html('<p class="list-group-item text-center">Không tìm thấy kết quả phù hợp</p>')
-            }
-            else{
-                $.each(data,function (index,item) {
-                    $('#studentSuggest').append(drawStudentRowForSuggestBox(item));
-                });
-            }
-
-        },
-        error : function (res) {
-            console.log(res);
-        }
-    });
-}
-
-function drawStudentRowForSuggestBox(item) {
-    var row = '<a class="list-group-item list-group-item-action">' +
-        '<span class="badge badge-info mr-2">'+item.studentId+'</span> '+item.firstName+' '+item.lastName+
-        '</a>';
-    return row;
-}
-
-$('#studentSuggest').on('click','a.list-group-item',function (e) {
-    var scoresDiv = $('#scores');
-    //set input
+function searchScoresByStudentId(studentSuggestion) {
+        //set input
+    var studentInput = $('#studentInput');
     studentInput.prop('disabled',true);
     //set table body
     var tableBody = $('tbody');
     tableBody.html('');
-    //set heading
-    var text = e.target.text;
-    var studentId = text.substring(0,10);
-    var studentName = text.substring(studentId.length+1,text.length);
-    studentInput.val(studentId);
+
+    var studentId = studentSuggestion.value;
+    var studentName = studentSuggestion.data;
 
     //find scores
     var searchScoresApiUrl = $('#getTranscriptApiUrl').prop('href')+studentId+','+$('#semester').val();
@@ -103,9 +23,9 @@ $('#studentSuggest').on('click','a.list-group-item',function (e) {
         cache: false,
         timeout: 100000,
         beforeSend : function(){
-            scoresDiv.slideUp(450,function () {
-                $('#scores').css('opacity',1);
-            });
+            if(scoresDiv.css('display')!='none'){
+                scoresDiv.slideUp(400);
+            }
             scoresDiv.find('h4.header-title').text(studentId+' - '+studentName);
         },
         success : function (data) {
@@ -116,13 +36,13 @@ $('#studentSuggest').on('click','a.list-group-item',function (e) {
 
             });
             $('#termPointAverage').text(data.termPointAverage.toFixed(2));
-            scoresDiv.slideDown(450);
+            scoresDiv.slideDown(400);
         },
         error : function (res) {
             console.log(res);
         }
     })
-});
+}
 
 function drawScoreRow(item) {
     var attendanceScore = (item.attendanceScore!=null) ? item.attendanceScore : '';
@@ -146,5 +66,28 @@ function drawScoreRow(item) {
     return row;
 
 }
-
-
+//
+//
+var searchApiUrl = $('#searchApiUrl').prop('href');
+$('#studentInput').autocomplete({
+    serviceUrl : searchApiUrl,
+    minChars : 3,
+    autoSelectFirst: true,
+    showNoSuggestionNotice : true,
+    triggerSelectOnValidInput : false,
+    noSuggestionNotice : 'Không tìm thấy kết quả phù hợp',
+    formatResult : function(suggestion,currentValue){
+       return '<span class="badge badge-info mr-2">'+suggestion.value+'</span> '+suggestion.data;
+    },
+    onSearchStart:function(){
+      if(scoresDiv.css('display')!='none'){
+          scoresDiv.fadeTo(1,0.25);
+      }
+    },
+    onSelect : function (suggestion) {
+        if(scoresDiv.css('opacity')<1){
+            scoresDiv.css('opacity',1);
+        }
+        searchScoresByStudentId(suggestion);
+    }
+});

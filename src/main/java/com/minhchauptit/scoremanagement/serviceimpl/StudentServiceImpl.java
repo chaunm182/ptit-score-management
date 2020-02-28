@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @CacheEvict(value = "students", allEntries = true)
+//    @CacheEvict(value = "students", allEntries = true)
     public Student save(Student student) {
         return studentRespository.save(student);
 
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    @Cacheable(value = "students", condition = "#param.length() <=8")
+//    @Cacheable(value = "students", condition = "#param.length() <=8")
     public List<Student> findStudentsByStudentIdLikeOrFullNameLike(String param) {
         return customizeStudentRepository.findStudentsByStudentIdLikeOrFullNameLike(param);
     }
