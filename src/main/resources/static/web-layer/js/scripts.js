@@ -1,16 +1,13 @@
 var studentInput = $('#studentInput');
 var iconSection = $('#icon');
+var tableBody = $('tbody');
 studentInput.focus();
 
 var scoresDiv = $('#scores');
 
 function searchScoresByStudentId(studentSuggestion) {
         //set input
-    var studentInput = $('#studentInput');
     studentInput.prop('disabled',true);
-    //set table body
-    var tableBody = $('tbody');
-    tableBody.html('');
 
     var studentId = studentSuggestion.value;
     var studentName = studentSuggestion.data;
@@ -39,6 +36,7 @@ function searchScoresByStudentId(studentSuggestion) {
             $.each(listScores,function (index,item) {
                 rows+=drawScoreRow(item);
             });
+            tableBody.html('');
             tableBody.append(rows);
             $('#termPointAverage').text(data.termPointAverage.toFixed(2));
 
