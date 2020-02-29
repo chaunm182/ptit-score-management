@@ -15,7 +15,7 @@ public class CustomizeStudentRepositoryImpl implements CustomizeStudentRepositor
     @Autowired
     private EntityManager entityManager;
 
-    @Value("${student.limit-result}")
+    @Value("${student.search.limit-result}")
     private Integer limitRecord;
 
     @Override

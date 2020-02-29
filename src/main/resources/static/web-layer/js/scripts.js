@@ -87,19 +87,19 @@ studentInput.autocomplete({
        return '<span class="badge badge-info mr-2">'+suggestion.value+'</span> '+suggestion.data;
     },
     onSearchStart:function(){
-      if(scoresDiv.css('display')!='none'){
-          scoresDiv.fadeTo(1,0.25);
-      }
-      iconSection.html('<i class="loader"></i>')
+      // if(scoresDiv.css('display')!='none'){
+      //     scoresDiv.fadeTo(1,0.25);
+      // }
+      iconSection.html('<i class="loader"></i>');
     },
 
     onSearchComplete: function(){
-        iconSection.html('<ti class="fa fa-search"></ti>')
+        iconSection.html('<ti class="fa fa-search"></ti>');
     },
     onSelect : function (suggestion) {
-        if(scoresDiv.css('opacity')<1){
-            scoresDiv.css('opacity',1);
-        }
+        // if(scoresDiv.css('opacity')<1){
+        //     scoresDiv.css('opacity',1);
+        // }
         searchScoresByStudentId(suggestion);
     }
 });
