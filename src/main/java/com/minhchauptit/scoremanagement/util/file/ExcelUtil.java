@@ -27,9 +27,8 @@ public class ExcelUtil {
             throw new FileNotFoundException("file not found");
         }
         Workbook workbook = WorkbookFactory.getWorkbook(file);
-        getSheet(workbook);
         //get first sheet
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = getSheet(workbook);
         //get properties
         Map<String,Integer> properties = findProperties(sheet);
         long startTime = System.currentTimeMillis();
@@ -43,8 +42,24 @@ public class ExcelUtil {
         return result;
     }
 
-    private void getSheet(Workbook workbook){
+    private Sheet getSheet(Workbook workbook){
         logger.info("Number of Sheets: " +workbook.getNumberOfSheets());
+        int sheetNum = 0;
+        Iterator<Sheet> sheetIterator = workbook.sheetIterator();
+        while (sheetIterator.hasNext()){
+            Sheet currentSheet  = sheetIterator.next();
+            Row firstRow = currentSheet.getRow(currentSheet.getFirstRowNum());
+            Iterator<Cell> cellIterator = firstRow.cellIterator();
+            while (cellIterator.hasNext()){
+                Cell cell = cellIterator.next();
+                if(getCellValue(cell).equals("BẢNG ĐIỂM HỌC PHẦN")){
+                    sheetNum = workbook.getSheetIndex(currentSheet);
+                    break;
+                }
+            }
+            if(sheetNum!=0) break;
+        }
+        return workbook.getSheetAt(sheetNum);
     }
 
 
