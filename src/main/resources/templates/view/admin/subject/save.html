@@ -24,40 +24,61 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title" th:text="${subject.id==null} ? 'Thêm môn học mới' : 'Cập nhật môn học - '+${subject.subjectId}"></h4>
-                    <form method="post" th:object="${subject}" th:action="@{/admin/subject/save}">
+                    <h4 class="header-title" th:text="${subjectDTO.id==null} ? 'Thêm môn học mới' : 'Cập nhật môn học - '+${subject.subjectId}"></h4>
+                    <form method="post" th:object="${subjectDTO}" th:action="@{/admin/subject/save}">
                         <div class="row">
                             <input type="hidden" th:field="*{id}">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label for="id"><strong>Mã môn học</strong></label>
-                                    <input type="text" class="form-control" id="id" th:field="*{subjectId}" placeholder="Mã môn học...">
+                                    <label for="subjectId"><strong>Mã môn học</strong></label>
+                                    <input type="text" class="form-control" th:field="*{subjectId}" id="subjectId" placeholder="Mã môn học...">
+                                    <th:block th:if="${#fields.hasErrors('subjectId')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('subjectId')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                                 <div class="form-group">
                                     <label for="name"><strong>Tên môn học</strong></label>
                                     <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Tên môn học...">
+                                    <th:block th:if="${#fields.hasErrors('name')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('name')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name"><strong>Số tín chỉ</strong></label>
+                                    <label for="credit"><strong>Số tín chỉ</strong></label>
                                     <input type="number" class="form-control" th:field="*{credit}" id="credit" placeholder="Số tín chỉ...">
+                                    <th:block th:if="${#fields.hasErrors('credit')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('credit')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
-                                    <label for="id"><strong>Điểm chuyên cần</strong></label>
-                                    <input type="number" id="attendanceWeight" th:field="*{subjectDetail.attendanceWeight}" class="form-control" placeholder="Hệ số chuyên cần...">
+                                    <label for="attendanceWeight"><strong>Điểm chuyên cần</strong></label>
+                                    <input type="number" id="attendanceWeight" th:field="*{subjectDetailDTO.attendanceWeight}" class="form-control" placeholder="Hệ số chuyên cần...">
+                                    <th:block th:if="${#fields.hasErrors('subjectDetailDTO.attendanceWeight')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('subjectDetailDTO.attendanceWeight')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                                 <div class="form-group">
                                     <label for="midTermExamWeight"><strong>Điểm kiểm tra</strong></label>
-                                    <input type="number" id="midTermExamWeight" th:field="*{subjectDetail.midTermExamWeight}" class="form-control" placeholder="Hệ số điểm kiểm tra...">
+                                    <input type="number" id="midTermExamWeight" th:field="*{subjectDetailDTO.midTermExamWeight}" class="form-control" placeholder="Hệ số điểm kiểm tra...">
+                                    <th:block th:if="${#fields.hasErrors('subjectDetailDTO.midTermExamWeight')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('subjectDetailDTO.midTermExamWeight')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                                 <div class="form-group">
                                     <label for="practiceWeight"><strong>Điểm thí nghiệm - thực hành</strong></label>
-                                    <input type="number" id="practiceWeight" th:field="*{subjectDetail.practiceWeight}" class="form-control" placeholder="Hệ số TN-TH...">
+                                    <input type="number" id="practiceWeight" th:field="*{subjectDetailDTO.practiceWeight}" class="form-control" placeholder="Hệ số TN-TH...">
+                                    <th:block th:if="${#fields.hasErrors('subjectDetailDTO.practiceWeight')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('subjectDetailDTO.practiceWeight')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                                 <div class="form-group">
                                     <label for="assignmentWeight"><strong>Điểm bài tập lớn</strong></label>
-                                    <input type="number" id="assignmentWeight" th:field="*{subjectDetail.assignmentWeight}" class="form-control" placeholder="Hệ số bài tập lớn...">
+                                    <input type="number" id="assignmentWeight" th:field="*{subjectDetailDTO.assignmentWeight}" class="form-control" placeholder="Hệ số bài tập lớn...">
+                                    <th:block th:if="${#fields.hasErrors('subjectDetailDTO.assignmentWeight')}">
+                                        <span class="text-danger" th:each="err : ${#fields.errors('subjectDetailDTO.assignmentWeight')}" th:text="${err}"></span>
+                                    </th:block>
                                 </div>
                             </div>
                         </div>

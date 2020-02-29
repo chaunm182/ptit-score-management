@@ -60,4 +60,11 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteById(Integer id) {
         subjectRepository.deleteById(id);
     }
+
+    @Override
+    public Subject findBySubjectId(String subjectId) {
+        Optional<Subject> subjectOptional = subjectRepository.findBySubjectId(subjectId);
+        if(subjectOptional.isPresent()) return subjectOptional.get();
+        return null;
+    }
 }

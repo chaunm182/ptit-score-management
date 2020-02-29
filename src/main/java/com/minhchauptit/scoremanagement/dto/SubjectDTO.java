@@ -1,15 +1,34 @@
 package com.minhchauptit.scoremanagement.dto;
 
 
+import com.minhchauptit.scoremanagement.validation.annotation.SubjectCodeUnique;
+
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 public class SubjectDTO {
+
     private Integer id;
+
+    @Size(min = 2, message = "Tối thiểu 2 ký tự")
+    @NotNull(message = "Không được để trống")
+    @SubjectCodeUnique
     private String subjectId;
+
+    @NotNull(message = "Không được để trống")
+    @Size(min = 1, message = "Tối thiểu 1 ký tự")
     private String name;
+
+    @NotNull(message = "Không được để trống")
+    @Min(value = 1,message = "Tối thiểu 1 tín chỉ")
     private Integer credit;
+
+
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
+    @Valid
     private SubjectDetailDTO subjectDetailDTO;
 
     public SubjectDTO() {

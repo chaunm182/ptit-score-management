@@ -17,4 +17,6 @@ public interface SubjectService {
     long calculateTotalPages(Integer size);
 
     void deleteById(Integer id);
+
+    Subject findBySubjectId(String subjectId);
 }

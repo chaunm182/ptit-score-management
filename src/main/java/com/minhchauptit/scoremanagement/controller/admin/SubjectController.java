@@ -5,13 +5,17 @@ import com.minhchauptit.scoremanagement.entity.Subject;
 import com.minhchauptit.scoremanagement.service.SubjectService;
 import com.minhchauptit.scoremanagement.util.bean.SubjectBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -35,15 +39,20 @@ public class SubjectController {
 
     @GetMapping("/add")
     public String showFormForAdd(Model model){
-        Subject subject = new Subject();
-        model.addAttribute("subject",subject);
+        SubjectDTO subjectDTO = new SubjectDTO();
+        model.addAttribute("subjectDTO",subjectDTO);
         return "view/admin/subject/save";
     }
 
     @PostMapping("/save")
-    public String saveSubject(@ModelAttribute("subject") Subject subject){
+    public String saveSubject(@Valid @ModelAttribute("subjectDTO") SubjectDTO subjectDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            logger.warning("ERROR SubjectDTO input when saving");
+            return "view/admin/subject/save";
+        }
         String param = null;
-        param = subject.getId()==null ? "insert" : "update";
+        param = subjectDTO.getId()==null ? "insert" : "update";
+        Subject subject = SubjectBeanUtil.dto2Entity(subjectDTO);
         Subject result = subjectService.save(subject);
 
         if (result!=null){
@@ -51,7 +60,6 @@ public class SubjectController {
         }
         else param = "_error";
         return "redirect:/admin/subject/list?"+param;
-
     }
 
     @GetMapping("/update")
@@ -75,6 +83,12 @@ public class SubjectController {
         }
 
         return "redirect:/admin/subject/list?delete_success";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder){
+        StringTrimmerEditor stringTrimmerEditor  = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
     }
 
 
