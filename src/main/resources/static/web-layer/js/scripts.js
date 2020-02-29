@@ -1,4 +1,6 @@
-$('#studentInput').focus();
+var studentInput = $('#studentInput');
+var iconSection = $('#icon');
+studentInput.focus();
 
 var scoresDiv = $('#scores');
 
@@ -31,11 +33,16 @@ function searchScoresByStudentId(studentSuggestion) {
         success : function (data) {
             studentInput.prop('disabled',false);
             var listScores = data.listScore;
-            $.each(listScores,function (index,item) {
-                tableBody.append(drawScoreRow(item));
 
+            //draw table
+            var rows = '';
+            $.each(listScores,function (index,item) {
+                rows+=drawScoreRow(item);
             });
+            tableBody.append(rows);
             $('#termPointAverage').text(data.termPointAverage.toFixed(2));
+
+            //slide down
             scoresDiv.slideDown(400);
         },
         error : function (res) {
@@ -69,7 +76,7 @@ function drawScoreRow(item) {
 //
 //
 var searchApiUrl = $('#searchApiUrl').prop('href');
-$('#studentInput').autocomplete({
+studentInput.autocomplete({
     serviceUrl : searchApiUrl,
     minChars : 3,
     autoSelectFirst: true,
@@ -83,6 +90,11 @@ $('#studentInput').autocomplete({
       if(scoresDiv.css('display')!='none'){
           scoresDiv.fadeTo(1,0.25);
       }
+      iconSection.html('<i class="loader"></i>')
+    },
+
+    onSearchComplete: function(){
+        iconSection.html('<ti class="fa fa-search"></ti>')
     },
     onSelect : function (suggestion) {
         if(scoresDiv.css('opacity')<1){
