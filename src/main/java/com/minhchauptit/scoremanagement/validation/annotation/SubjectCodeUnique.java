@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD,ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface SubjectCodeUnique {
-    String value() default "";
     String message() default "Mã môn học đã tồn tại";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

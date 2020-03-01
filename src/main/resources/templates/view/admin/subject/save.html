@@ -24,7 +24,7 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title" th:text="${subjectDTO.id==null} ? 'Thêm môn học mới' : 'Cập nhật môn học - '+${subject.subjectId}"></h4>
+                    <h4 class="header-title" th:text="${subjectDTO.id==null} ? 'Thêm môn học mới' : 'Cập nhật môn học - '+${subjectDTO.subjectId}"></h4>
                     <form method="post" th:object="${subjectDTO}" th:action="@{/admin/subject/save}">
                         <div class="row">
                             <input type="hidden" th:field="*{id}">

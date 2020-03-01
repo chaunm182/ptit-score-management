@@ -6,18 +6,12 @@ import com.minhchauptit.scoremanagement.service.SubjectService;
 import com.minhchauptit.scoremanagement.util.bean.SubjectBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -45,20 +39,20 @@ public class SubjectController {
     }
 
     @PostMapping("/save")
-    public String saveSubject(@Valid @ModelAttribute("subjectDTO") SubjectDTO subjectDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            logger.warning("ERROR SubjectDTO input when saving");
-            return "view/admin/subject/save";
-        }
+    public String saveSubject(@ModelAttribute("subjectDTO") SubjectDTO subjectDTO){
         String param = null;
         param = subjectDTO.getId()==null ? "insert" : "update";
         Subject subject = SubjectBeanUtil.dto2Entity(subjectDTO);
-        Subject result = subjectService.save(subject);
-
+        Subject result= null;
+        try{
+            result = subjectService.save(subject);
+        }catch (Exception ex){
+            logger.warning(ex.getMessage());
+        }
         if (result!=null){
             param += "_success";
         }
-        else param = "_error";
+        else param += "_error";
         return "redirect:/admin/subject/list?"+param;
     }
 
@@ -66,7 +60,8 @@ public class SubjectController {
     public String showFormForUpdate(Model model, @RequestParam(name = "id") Integer id){
         Subject subject  = subjectService.findById(id);
         if(subject!=null){
-            model.addAttribute("subject",subject);
+            SubjectDTO subjectDTO = SubjectBeanUtil.entity2DTO(subject);
+            model.addAttribute("subjectDTO",subjectDTO);
             return "view/admin/subject/save";
         }
         else return "view/admin/404";
