@@ -1,8 +1,8 @@
 # XEM ĐIỂM THI PTIT
--   Ứng dụng Web xem điểm nhanh điểm thi học kỳ cho sinh viên PTIT
+-   Ứng dụng Web xem nhanh điểm thi học kỳ cho sinh viên PTIT
 
 ### Giới thiệu
--   Web app sử dụng Spring boot 2
+-   Hệ thống phát triển bằng Spring framework 
 
 ### Hướng dẫn
--   Đang trong quá trình phát triển
+-   Coming soon
