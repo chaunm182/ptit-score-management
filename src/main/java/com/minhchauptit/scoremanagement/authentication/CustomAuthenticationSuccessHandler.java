@@ -12,15 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
     @Autowired
     private AccountService accountService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        System.out.println("in custom authentication success handler:");
+        logger.info("Customer authentication success handler: ");
         String username = authentication.getName();
         Account account = accountService.findByUsername(username);
         HttpSession session = httpServletRequest.getSession();

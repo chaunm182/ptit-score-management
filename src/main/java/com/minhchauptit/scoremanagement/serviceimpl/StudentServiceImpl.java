@@ -65,4 +65,11 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> findStudentsByStudentIdLikeOrFullNameLike(String param) {
         return customizeStudentRepository.findStudentsByStudentIdLikeOrFullNameLike(param);
     }
+
+    @Override
+    public Student findSByAccountUsername(String username) {
+        Optional<Student> studentOptional = studentRespository.findByAccount_Username(username);
+        if(studentOptional.isPresent()) return studentOptional.get();
+        return null;
+    }
 }

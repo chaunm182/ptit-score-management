@@ -22,56 +22,75 @@
         <div class="login-area">
             <div class="container">
                 <div class="login-box ptb--100">
-                    <form method="post" th:action="@{/auth-user}">
-                        <div class="login-form-head">
-                            <h4>Đăng nhập</h4>
-                            <p>Đăng nhập hệ thống</p>
-                        </div>
-                        <div class="login-form-body">
-                            <th:block th:if="${param.logout!=null}">
-                                <div class="alert alert-primary alert-dismissible fade show" role="alert" style="margin-bottom: 20px">
-                                    <p>Đăng xuất thành công</p>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span class="fa fa-times"></span>
-                                    </button>
-                                </div>
-                            </th:block>
-                            <th:block th:if="${param.error!=null}">
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 20px">
-                                    <p>Tài khoản hoặc mật khẩu không chính xác</p>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span class="fa fa-times"></span>
-                                    </button>
-                                </div>
-                            </th:block>
-                            <div class="form-gp">
-                                <label for="username">Tên đăng nhập</label>
-                                <input type="text" name="username" id="username">
-                                <i class="ti-user"></i>
-                                <div class="text-danger"></div>
+                    <th:block th:if="${session.account}">
+                        <form method="post" th:action="@{/logout}">
+                            <div class="login-form-head">
+                                <h4>Đăng nhập</h4>
+                                <p>Đăng nhập hệ thống</p>
                             </div>
-                            <div class="form-gp">
-                                <label for="password">Mật khẩu</label>
-                                <input type="password" name="password" id="password">
-                                <i class="ti-lock"></i>
-                                <div class="text-danger"></div>
+                            <div class="login-form-body">
+                                <p>Bạn đã đăng nhập với tài khoản:
+                                    <strong th:text="${session.account.username}"></strong></p>
+                                <div class="submit-btn-area mt-2">
+                                    <a th:href="@{/admin/home}" class="btn btn-primary" style="color: white">Đi tới bảng điều khiển <i class="ti-arrow-right"></i></a>
+                                    <button type="submit" class="btn btn-danger mt-4">Đăng xuất</button>
+                                </div>
                             </div>
-                            <div class="row mb-4 rmber-area">
-                                <div class="col-6">
-                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                        <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                                        <label class="custom-control-label" for="customControlAutosizing">Nhớ mật khẩu</label>
+                        </form>
+                    </th:block>
+                    <th:block th:unless="${session.account}">
+                        <form method="post" th:action="@{/auth-user}">
+                            <div class="login-form-head">
+                                <h4>Đăng nhập</h4>
+                                <p>Đăng nhập hệ thống</p>
+                            </div>
+                            <div class="login-form-body">
+                                <th:block th:if="${param.logout!=null}">
+                                    <div class="alert alert-primary alert-dismissible fade show" role="alert" style="margin-bottom: 20px">
+                                        <p>Đăng xuất thành công</p>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+                                    </div>
+                                </th:block>
+                                <th:block th:if="${param.error!=null}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 20px">
+                                        <p>Tài khoản hoặc mật khẩu không chính xác</p>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+                                    </div>
+                                </th:block>
+                                <div class="form-gp">
+                                    <label for="username">Tên đăng nhập</label>
+                                    <input type="text" name="username" id="username">
+                                    <i class="ti-user"></i>
+                                    <div class="text-danger"></div>
+                                </div>
+                                <div class="form-gp">
+                                    <label for="password">Mật khẩu</label>
+                                    <input type="password" name="password" id="password">
+                                    <i class="ti-lock"></i>
+                                    <div class="text-danger"></div>
+                                </div>
+                                <div class="row mb-4 rmber-area">
+                                    <div class="col-6">
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                            <label class="custom-control-label" for="customControlAutosizing">Nhớ mật khẩu</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a href="#">Quên mật khẩu ?</a>
                                     </div>
                                 </div>
-                                <div class="col-6 text-right">
-                                    <a href="#">Quên mật khẩu ?</a>
+                                <div class="submit-btn-area">
+                                    <button id="form_submit" type="submit">Đăng nhập <i class="ti-arrow-right"></i></button>
                                 </div>
                             </div>
-                            <div class="submit-btn-area">
-                                <button id="form_submit" type="submit">Đăng nhập <i class="ti-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </th:block>
+
                 </div>
             </div>
         </div>
