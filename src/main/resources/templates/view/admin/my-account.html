@@ -84,6 +84,8 @@
                             <h4 class="header-title">Đổi mật khẩu</h4>
                             <form id="changePasswordForm">
                                 <a id="checkPasswordUrl" th:href="@{/api/account/check-password}" style="display: none"></a>
+                                <a id="changePasswordUrl" th:href="@{/api/account/change-password}" style="display: none"></a>
+                                <a id="redirectMyAccount" th:href="@{/admin/my-account}" style="display: none"></a>
                                 <div class="form-group">
                                     <label for="password">Mật khẩu cũ</label>
                                     <input type="password" class="form-control" id="password" placeholder="mật khẩu cũ...">
@@ -99,10 +101,6 @@
         </div>
     </div>
 </div>
-<script layout:fragment="script">
-    $(document).ready(function () {
-        activeMenu("menuDashboard");
-    })
-</script>
+<script layout:fragment="script"></script>
 </body>
 </html>
