@@ -157,5 +157,12 @@ public class ScoreRestController {
         return "Success - Save "+count+" records";
     }
 
+    @GetMapping("/scores/check/{subjectId},{semester}")
+    public String isExistScore(@PathVariable("subjectId") Integer id,
+                                @PathVariable("semester") Integer semester){
+        return String.valueOf(scoreDetailService.isExistScore(id,semester));
+
+    }
+
 
 }

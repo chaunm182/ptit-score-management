@@ -30,9 +30,7 @@ public class HomeController {
         Account account = (Account) request.getSession().getAttribute("account");
         String username = account.getUsername();
         Student student = studentService.findSByAccountUsername(username);
-        AccountDTO accountDTO = AccountBeanUtil.entity2DTO(account);
         StudentDTO studentDTO = StudentBeanUtil.entity2DTO(student);
-        model.addAttribute("accountDTO",accountDTO);
         model.addAttribute("studentDTO",studentDTO);
         return "/view/admin/my-account";
     }

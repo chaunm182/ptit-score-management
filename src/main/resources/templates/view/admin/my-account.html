@@ -21,7 +21,7 @@
 <!--content-->
 <div layout:fragment="content">
     <div class="row">
-        <div class="col-lg-7 col-ml-12">
+        <div class="col-md-7 col-ml-12">
             <div class="row">
                 <!-- Textual inputs start -->
                 <div class="col-12 mt-5">
@@ -34,14 +34,15 @@
                                     <button type="button" style="width: 150px" class="btn btn-info btn-xs mt-3">Đổi ảnh đại diện</button>
                                 </div>
                                 <div class="col-md-8">
-                                    <form th:object="${accountDTO}">
+                                    <form id="accountForm" th:action="@{/api/accounts/update-email}">
+                                        <input id="id" type="hidden" th:value="${session.account.id}"/>
                                         <div class="form-group">
                                             <label for="username">Tên tài khoản</label>
-                                            <input type="text" disabled class="form-control" id="username" th:field="*{username}" placeholder="Tên tài khoản">
+                                            <input type="text" disabled class="form-control" id="username" th:value="${session.account.username}" placeholder="Tên tài khoản">
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" placeholder="email" th:field="*{email}">
+                                            <input type="email" class="form-control" id="email" placeholder="email" th:value="${session.account.email}">
                                         </div>
                                        <hr style="border: 1px solid deepskyblue">
                                     </form>
@@ -66,7 +67,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <button type="button" class="btn btn-primary mt-4 pr-4 pl-4 ml-3">Lưu thay đổi</button>
+                                <button id="btnSaveAccount" type="button" class="btn btn-primary mt-4 pr-4 pl-4 ml-3">Lưu thay đổi</button>
                             </div>
 
                         </div>
@@ -75,7 +76,7 @@
                 <!-- Textual inputs end -->
             </div>
         </div>
-        <div class="col-lg-5 col-ml-12">
+        <div class="col-md-5 col-ml-12">
             <div class="row">
                 <!-- basic form start -->
                 <div class="col-12 mt-5">
@@ -83,8 +84,8 @@
                         <div class="card-body">
                             <h4 class="header-title">Đổi mật khẩu</h4>
                             <form id="changePasswordForm">
-                                <a id="checkPasswordUrl" th:href="@{/api/account/check-password}" style="display: none"></a>
-                                <a id="changePasswordUrl" th:href="@{/api/account/change-password}" style="display: none"></a>
+                                <a id="checkPasswordUrl" th:href="@{/api/accounts/check-password}" style="display: none"></a>
+                                <a id="changePasswordUrl" th:href="@{/api/accounts/change-password}" style="display: none"></a>
                                 <a id="redirectMyAccount" th:href="@{/admin/my-account}" style="display: none"></a>
                                 <div class="form-group">
                                     <label for="password">Mật khẩu cũ</label>

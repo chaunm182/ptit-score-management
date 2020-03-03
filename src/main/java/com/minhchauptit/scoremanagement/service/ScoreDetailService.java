@@ -9,4 +9,5 @@ public interface ScoreDetailService {
     void deleteById(Integer id);
     List<Integer> findDistinctSemester();
     List<ScoreDetail> findScoreDetailByStudentIdAndSemester(String studentId, Integer semester);
+    Boolean isExistScore(Integer subjectId, Integer semester);
 }

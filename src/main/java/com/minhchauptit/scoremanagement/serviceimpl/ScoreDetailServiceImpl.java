@@ -1,6 +1,7 @@
 package com.minhchauptit.scoremanagement.serviceimpl;
 
 import com.minhchauptit.scoremanagement.entity.ScoreDetail;
+import com.minhchauptit.scoremanagement.repository.CustomizeScoreDetailRepository;
 import com.minhchauptit.scoremanagement.repository.ScoreDetailRepository;
 import com.minhchauptit.scoremanagement.service.ScoreDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class ScoreDetailServiceImpl implements ScoreDetailService {
 
     @Autowired
     private ScoreDetailRepository scoreDetailRepository;
+
+    @Autowired
+    private CustomizeScoreDetailRepository customizeScoreDetailRepository;
     @Override
     public void saveScoreDetail(ScoreDetail scoreDetail) {
         scoreDetailRepository.save(scoreDetail);
@@ -32,5 +36,10 @@ public class ScoreDetailServiceImpl implements ScoreDetailService {
     @Override
     public List<ScoreDetail> findScoreDetailByStudentIdAndSemester(String studentId, Integer semester) {
         return scoreDetailRepository.findScoreDetailByStudentStudentIdAndSemester(studentId,semester);
+    }
+
+    @Override
+    public Boolean isExistScore(Integer subjectId, Integer semester) {
+        return customizeScoreDetailRepository.isExistScore(subjectId,semester);
     }
 }
