@@ -7,4 +7,5 @@ public interface AccountService extends UserDetailsService {
     Account findById(Integer id);
     Account findByUsername(String username);
     void save(Account account);
+    Account findByEmail(String email);
 }

@@ -15,4 +15,9 @@ public class LoginController {
     public String showAccessDeniedPage(){
         return "view/admin/access-denied";
     }
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordPage(){
+        return "view/admin/forgot-password";
+    }
 }

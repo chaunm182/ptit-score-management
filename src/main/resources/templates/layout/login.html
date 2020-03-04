@@ -7,12 +7,11 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Đăng nhập</title>
     <th:block th:insert="~{/layout/admin.html :: head/link}"/>
-
-    <!-- modernizr css -->
     <th:block th:insert="~{/layout/admin.html :: head/script}"/>
 </head>
 <body>
     <div layout:fragment="body"></div>
     <th:block th:insert="~{/layout/admin.html :: body/script}"/>
+    <script th:src="@{/js/forgot-password.js}"></script>
 </body>
 </html>
