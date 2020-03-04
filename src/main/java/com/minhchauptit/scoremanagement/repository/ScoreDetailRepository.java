@@ -11,4 +11,6 @@ public interface ScoreDetailRepository extends JpaRepository<ScoreDetail,Integer
     List<Integer> findDistinctSemester();
 
     List<ScoreDetail> findScoreDetailByStudentStudentIdAndSemester(String studentId,Integer semester);
+
+    void deleteBySubjectIdAndSemester(Integer subjectId, Integer semester);
 }

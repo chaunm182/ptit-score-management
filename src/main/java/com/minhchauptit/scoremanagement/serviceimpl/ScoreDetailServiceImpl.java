@@ -6,6 +6,7 @@ import com.minhchauptit.scoremanagement.repository.ScoreDetailRepository;
 import com.minhchauptit.scoremanagement.service.ScoreDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,5 +42,11 @@ public class ScoreDetailServiceImpl implements ScoreDetailService {
     @Override
     public Boolean isExistScore(Integer subjectId, Integer semester) {
         return customizeScoreDetailRepository.isExistScore(subjectId,semester);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBySubjectIdAndSemester(Integer subjectId, Integer semester) {
+        scoreDetailRepository.deleteBySubjectIdAndSemester(subjectId,semester);
     }
 }

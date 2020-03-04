@@ -12,6 +12,7 @@ import com.minhchauptit.scoremanagement.service.SubjectService;
 import com.minhchauptit.scoremanagement.util.bean.ScoreDetailBeanUtil;
 import com.minhchauptit.scoremanagement.util.file.ExcelUtil;
 import com.minhchauptit.scoremanagement.util.score.ScoreUtil;
+import constant.SaveScoreAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -131,12 +132,22 @@ public class ScoreRestController {
         return result;
     }
 
-    @PostMapping("/scores/upload/{subjectId},{semester}")
+    @PostMapping("/scores/upload/{subjectId},{semester},{action}")
     public String saveScores(@PathVariable(name = "subjectId") Integer subjectId,
                              @PathVariable(name = "semester") Integer semester,
+                             @PathVariable(name = "action") Integer action,
                              @RequestBody List<ScoreDetailDTO> listScoreDetailDTOS){
-        Subject subject = subjectService.findById(subjectId);
+        StringBuilder response = new StringBuilder();
+
+        if (action == SaveScoreAction.DELETE_AND_SAVE_NEW_RECORDS) {
+            scoreDetailService.deleteBySubjectIdAndSemester(subjectId, semester);
+            response.append("Deleted old records and ");
+        }
+
+        //save new record
         int count=0;
+        Subject subject = new Subject();
+        subject.setId(subjectId);
         for(ScoreDetailDTO scoreDetailDTO : listScoreDetailDTOS){
             ScoreDetail scoreDetail = ScoreDetailBeanUtil.dto2Entity(scoreDetailDTO);
             scoreDetail.setSubject(subject);
@@ -153,8 +164,10 @@ public class ScoreRestController {
                 ex.printStackTrace();
             }
         }
+        response.append("Saved "+count+" new records");
+        //end of save
 
-        return "Success - Save "+count+" records";
+        return response.toString();
     }
 
     @GetMapping("/scores/check/{subjectId},{semester}")
