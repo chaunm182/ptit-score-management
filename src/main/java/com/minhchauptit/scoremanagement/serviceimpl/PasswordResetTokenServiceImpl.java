@@ -6,6 +6,8 @@ import com.minhchauptit.scoremanagement.service.PasswordResetTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PasswordResetTokenServiceImpl implements PasswordResetTokenService {
 
@@ -15,5 +17,13 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     @Override
     public void save(PasswordResetToken passwordResetToken) {
         passwordResetTokenRepository.save(passwordResetToken);
+    }
+
+    @Override
+    public PasswordResetToken findByToken(String token) {
+
+        Optional<PasswordResetToken> passwordResetTokenOptional = passwordResetTokenRepository.findFirstByToken(token);
+        if(passwordResetTokenOptional.isPresent()) return passwordResetTokenOptional.get();
+        return null;
     }
 }

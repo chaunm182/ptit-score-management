@@ -3,6 +3,8 @@ package com.minhchauptit.scoremanagement.repository;
 import com.minhchauptit.scoremanagement.entity.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken,Integer> {
+import java.util.Optional;
 
+public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken,Integer> {
+    Optional<PasswordResetToken> findFirstByToken(String token);
 }
