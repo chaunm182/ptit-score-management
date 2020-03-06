@@ -24,8 +24,10 @@ public class WorkbookFactory {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Chay vao day");
             e.printStackTrace();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
         }
         return null;
 
