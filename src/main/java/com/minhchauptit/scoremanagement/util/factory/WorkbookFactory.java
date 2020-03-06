@@ -26,9 +26,6 @@ public class WorkbookFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
         return null;
 
     }
