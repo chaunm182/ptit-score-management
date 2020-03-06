@@ -29,9 +29,10 @@ public class StudentRestController {
     }
 
     @GetMapping("/students/{studentId}")
-    public Student getStudent(@PathVariable(name = "studentId") Integer studentId){
-        Student student = studentService.findById(studentId);
-        return student;
+    public StudentDTO getStudent(@PathVariable(name = "studentId") String studentId){
+        Student student = studentService.findByStudentId(studentId);
+        StudentDTO studentDTO = StudentBeanUtil.entity2DTO(student);
+        return studentDTO;
     }
 
     @GetMapping("/students/search")
