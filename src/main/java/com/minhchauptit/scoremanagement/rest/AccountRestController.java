@@ -95,8 +95,9 @@ public class AccountRestController {
         passwordResetTokenService.save(passwordResetToken);
 
         //send mail
-        String resetPasswordLink = request.getScheme()+"://"+request.getHeader("Host")
-                +"/reset-password?token="+token;
+//        String resetPasswordLink = request.getScheme()+"://"+request.getHeader("Host")
+//                +"/reset-password?token="+token; //using for localhost
+        String resetPasswordLink = "https://dtptit.online/reset-password?token="+token;
         ResetPasswordMail mail = new ResetPasswordMail(resetPasswordLink);
         mail.setFirstName(account.getPerson().getFirstName());
         mail.setLastName(account.getPerson().getLastName());
