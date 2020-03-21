@@ -130,7 +130,6 @@
             dataType : "json",
             contentType: false,
             cache: false,
-            timeout: 1000000,
             processData: false,
             data : data,
             success : function (data) {
@@ -207,7 +206,6 @@
             dataType: 'text',
             data: JSON.stringify(scoreResult),
             cache: false,
-            timeout: 600000,
             beforeSend: function(){
                 $('#progressReadData').css('display','flex');
                 btnSaveScores.prop('disabled',true);
