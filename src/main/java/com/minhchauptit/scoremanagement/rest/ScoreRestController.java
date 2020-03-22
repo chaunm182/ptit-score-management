@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.FileNotFoundException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -138,16 +139,17 @@ public class ScoreRestController {
                              @PathVariable(name = "action") Integer action,
                              @RequestBody List<ScoreDetailDTO> listScoreDetailDTOS){
         StringBuilder response = new StringBuilder();
-
         if (action == SaveScoreAction.DELETE_AND_SAVE_NEW_RECORDS) {
             scoreDetailService.deleteBySubjectIdAndSemester(subjectId, semester);
             response.append("Deleted old records and ");
         }
-
+        //update time
+        Subject subject = subjectService.findById(subjectId);
+        subject.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        subjectService.save(subject);
         //save new record
         int count=0;
-        Subject subject = new Subject();
-        subject.setId(subjectId);
+
         for(ScoreDetailDTO scoreDetailDTO : listScoreDetailDTOS){
             ScoreDetail scoreDetail = ScoreDetailBeanUtil.dto2Entity(scoreDetailDTO);
             scoreDetail.setSubject(subject);

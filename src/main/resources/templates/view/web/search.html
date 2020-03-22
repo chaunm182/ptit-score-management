@@ -11,8 +11,25 @@
     <div layout:fragment="content">
         <div class="container">
             <div class="row align-items-center">
+
                 <div class="col-md-7 col-sm-12 mb-3">
-                    <div class="input-group mt-5">
+                    <div class="alert alert-info mt-3" role="alert" style="padding-top: 7px;padding-bottom: 7px">
+                        <div class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" >
+                                <th:block th:each="subject,state : ${listSubject}">
+                                    <div th:if="${state.first}" class="carousel-item active">
+                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong>
+                                    </div>
+                                    <div th:unless="${state.first}" class="carousel-item">
+                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong>
+                                    </div>
+                                </th:block>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="input-group mt-3">
                         <input id="studentInput" type="text" class="form-control" placeholder="Nhập mã sinh viên hoặc họ tên...">
                         <div class="input-group-append">
                             <span class="input-group-text" id="icon"><i class="fa fa-search"></i></span>
@@ -20,7 +37,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-12 mt-3 mb-6">
+                <div class="col-lg-12 mt-2 mb-6">
                     <div id="scores" class="card" style="display: none">
                         <div class="card-body">
                             <div class="row">

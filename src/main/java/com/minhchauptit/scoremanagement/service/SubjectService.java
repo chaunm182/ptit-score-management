@@ -19,4 +19,6 @@ public interface SubjectService {
     void deleteById(Integer id);
 
     Subject findBySubjectId(String subjectId);
+
+    List<Subject> findTop3WithUpdateTime();
 }

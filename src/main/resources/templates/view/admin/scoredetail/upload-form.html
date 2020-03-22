@@ -130,6 +130,7 @@
             dataType : "json",
             contentType: false,
             cache: false,
+            timeout: 1000000,
             processData: false,
             data : data,
             success : function (data) {
@@ -205,6 +206,7 @@
             contentType: 'application/json',
             dataType: 'text',
             data: JSON.stringify(scoreResult),
+            timeout: 1000000,
             cache: false,
             beforeSend: function(){
                 $('#progressReadData').css('display','flex');

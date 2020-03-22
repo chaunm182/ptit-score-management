@@ -1,6 +1,7 @@
 package com.minhchauptit.scoremanagement.serviceimpl;
 
 import com.minhchauptit.scoremanagement.entity.Subject;
+import com.minhchauptit.scoremanagement.repository.CustomizeSubjectRepository;
 import com.minhchauptit.scoremanagement.repository.SubjectRepository;
 import com.minhchauptit.scoremanagement.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private CustomizeSubjectRepository customizeSubjectRepository;
     @Override
     public List<Subject> findAll() {
         return subjectRepository.findAll();
@@ -66,5 +70,10 @@ public class SubjectServiceImpl implements SubjectService {
         Optional<Subject> subjectOptional = subjectRepository.findBySubjectId(subjectId);
         if(subjectOptional.isPresent()) return subjectOptional.get();
         return null;
+    }
+
+    @Override
+    public List<Subject> findTop3WithUpdateTime() {
+        return customizeSubjectRepository.findTop3WithUpdateTime();
     }
 }
