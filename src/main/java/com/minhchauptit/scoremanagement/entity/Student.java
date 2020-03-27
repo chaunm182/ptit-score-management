@@ -18,6 +18,8 @@ public class Student extends Person{
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<ScoreDetail> scoreDetails;
 
+
+
     public String getStudentId() {
         return studentId;
     }
@@ -41,4 +43,6 @@ public class Student extends Person{
     public void setScoreDetails(Set<ScoreDetail> scoreDetails) {
         this.scoreDetails = scoreDetails;
     }
+
+
 }

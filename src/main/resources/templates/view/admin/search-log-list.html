@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin.html}"
+      lang = "en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nhật ký tìm kiếm</title>
+</head>
+<body>
+<!--replace page title-->
+<h4 layout:fragment="page-title">Log tìm kiếm</h4>
+
+<!--replace breadcrumbs-->
+<ul layout:fragment="breadcrumbs">
+    <li><a th:href="@{/admin/home}">Trang chủ</a></li>
+    <li><span>Log tìm kiếm</span></li>
+</ul>
+
+<!--content-->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Log tìm kiếm</h4>
+                    <div class="single-table">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">IP</th>
+                                    <th scope="col">Tìm kiếm sinh viên</th>
+                                    <th scope="col">Thời gian tìm kiếm</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">192.168.1.1</th>
+                                    <th scope="row">b16dccn028 - Nguyễn tuấn huy</th>
+                                    <td>09 / 07 / 2018</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span id="totalPages" style="display: none" th:text="${numbersOfPages}"></span>
+                    <ul id="pagination" class="pagination pg-color-border float-right">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    $(document).ready(function () {
+        activeMenu("menuSearchLog");
+        $('#pagination').twbsPagination({
+            totalPages : $('#totalPages').text(),
+            initiateStartPageClick: true,
+            first : "Trang đầu",
+            next : "Tiếp",
+            prev : 'Trước',
+            last : 'Trang cuối',
+            onPageClick: function (event,page) {
+                loadItem(page-1);
+            }
+        });
+    });
+
+    var tbody = $('tbody');
+    function loadItem(page) {
+        var url = /*[[@{/api/searchlogs/}]]*/'';
+        url+=(page+',15');
+        tbody.html('');
+        $.ajax({
+            type : 'get',
+            url: url,
+            contentType : false,
+            dataType : 'json',
+            timeout : 60000,
+            success: function (res) {
+                console.log(res);
+                drawItem(res);
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        })
+    }
+    function drawItem(items) {
+        var rows = '';
+        $.each(items,function (index,item) {
+            var createdAt = new Date(item.createdAt);
+            var row = '<tr>\n' +
+                '<th scope="row">'+item.ipDTO.ip+'</th>\n' +
+                '<th scope="row">'+item.studentDTO.studentId+' - '+
+                    item.studentDTO.firstName+' '+item.studentDTO.lastName+'</th>\n' +
+                '<td>'+createdAt.toLocaleTimeString()+' '+createdAt.toLocaleDateString()+'</td>\n' +
+                '</tr>';
+            rows+=row;
+        });
+        tbody.html(rows);
+    }
+</script>
+</body>
+</html>

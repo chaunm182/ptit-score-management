@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -79,7 +80,8 @@ public class ScoreRestController {
     @GetMapping("/scores/transcript/{studentId},{semester}")
     public Transcript getTranscriptByStudentIdAndSemester(
             @PathVariable(name = "studentId") String studentId,
-            @PathVariable(name = "semester") Integer semester
+            @PathVariable(name = "semester") Integer semester,
+            HttpServletRequest request
     ){
         Transcript transcript = new Transcript();
         studentId = studentId.toUpperCase();
