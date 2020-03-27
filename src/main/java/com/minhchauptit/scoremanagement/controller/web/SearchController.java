@@ -24,4 +24,8 @@ public class SearchController {
         model.addAttribute("listSubject",list);
         return "view/web/search";
     }
+    @GetMapping("/loaderio-252b7179047195bae418032a8b65257a")
+    public String testFromLoaderIo(){
+        return "view/web/loaderio-252b7179047195bae418032a8b65257a";
+    }
 }
