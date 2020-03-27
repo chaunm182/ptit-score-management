@@ -5,6 +5,8 @@ import com.minhchauptit.scoremanagement.repository.CustomizeSubjectRepository;
 import com.minhchauptit.scoremanagement.repository.SubjectRepository;
 import com.minhchauptit.scoremanagement.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @Cacheable("subjects")
     public Page<Subject> findAllWithPagingAndSorting(Integer page, Integer size, String sortExpression, String sortDirection) {
         Sort sort = Sort.by(sortExpression);
         if(sortDirection.equalsIgnoreCase("ASC")) sort.ascending();
@@ -39,6 +42,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @CacheEvict(value = "subjects", allEntries = true)
     public Subject save(Subject subject) {
         long currentTime = System.currentTimeMillis();
         subject.setCreatedAt(new Timestamp(currentTime));
@@ -61,6 +65,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @CacheEvict(value = "subjects", allEntries = true)
     public void deleteById(Integer id) {
         subjectRepository.deleteById(id);
     }
