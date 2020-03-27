@@ -51,18 +51,18 @@ public class LogingAspect {
         String remoteAddr;
         remoteAddr = request.getHeader("X-FORWARDED-FOR");
         logger.info(remoteAddr);
-//        //save
-//        Student student = studentService.findByStudentId(studentId);
-//        Ip ip = ipService.findByIp(remoteAddr);
-//        if(ip==null){
-//            ip = new Ip();
-//            ip.setIp(remoteAddr);
-//        }
-//        SearchLog searchLog = new SearchLog();
-//        searchLog.setIp(ip);
-//        searchLog.setStudent(student);
-//        searchLog.setCreatedAt(new Date());
-//        searchLogService.save(searchLog);
+        //save
+        Student student = studentService.findByStudentId(studentId);
+        Ip ip = ipService.findByIp(remoteAddr);
+        if(ip==null){
+            ip = new Ip();
+            ip.setIp(remoteAddr);
+        }
+        SearchLog searchLog = new SearchLog();
+        searchLog.setIp(ip);
+        searchLog.setStudent(student);
+        searchLog.setCreatedAt(new Date());
+        searchLogService.save(searchLog);
     }
 
 }
