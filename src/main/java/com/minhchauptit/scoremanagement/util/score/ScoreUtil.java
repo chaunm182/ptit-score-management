@@ -32,25 +32,20 @@ public class ScoreUtil {
 
     public static void setMark(ScoreDetailDTO scoreDetailDTO){
         SubjectDTO subjectDTO = scoreDetailDTO.getSubjectDTO();
+        String subjectName = subjectDTO.getName();
         Integer attendanceWeight = subjectDTO.getSubjectDetailDTO().getAttendanceWeight();
         Integer midTermExamWeight = subjectDTO.getSubjectDetailDTO().getMidTermExamWeight();
         Integer practiceWeight = subjectDTO.getSubjectDetailDTO().getPracticeWeight();
         Integer assignmentWeight = subjectDTO.getSubjectDetailDTO().getAssignmentWeight();
         Integer finalExamWeight = 100 - (attendanceWeight+midTermExamWeight+practiceWeight+assignmentWeight);
-        float mark = (float) 0.0;
-        if(scoreDetailDTO.getFinalExamScore()==null){
-            scoreDetailDTO.setMark(mark);
-            return;
+        if(!isEnglishSubject(subjectName)){
+            setMarkForNormalSubject(scoreDetailDTO,
+                    attendanceWeight,midTermExamWeight,practiceWeight,assignmentWeight,finalExamWeight);
         }
-        mark+=(getScore(attendanceWeight,scoreDetailDTO.getAttendanceScore())+
-                getScore(midTermExamWeight,scoreDetailDTO.getMidTermExamScore())+
-                getScore(practiceWeight,scoreDetailDTO.getPracticeScore())+
-                getScore(assignmentWeight,scoreDetailDTO.getAssignmentScore())+
-                getScore(finalExamWeight,scoreDetailDTO.getFinalExamScore()));
-        //if english subject then mark/1000 else mark/100
-        mark = mark>1000 ? mark/1000 : mark/100;
-        mark = roundMark(mark);
-        scoreDetailDTO.setMark(mark);
+        else {
+            setMarkForEnglishSubject(scoreDetailDTO,
+                    attendanceWeight,midTermExamWeight,practiceWeight,assignmentWeight,finalExamWeight);
+        }
     }
 
     private static float getScore(Integer weight,Float score){
@@ -66,6 +61,67 @@ public class ScoreUtil {
         mark *=10;
         mark = Math.round(mark);
         return mark/10;
+    }
+
+    private static boolean isEnglishSubject(String subjectName) {
+        return subjectName.contains("Tiếng anh");
+    }
+
+    private static void setMarkForNormalSubject(ScoreDetailDTO scoreDetailDTO,
+                                                Integer attendanceWeight,
+                                                Integer midTermExamWeight,
+                                                Integer practiceWeight,
+                                                Integer assignmentWeight, Integer finalExamWeight){
+        float mark = (float) 0.0;
+        if(scoreDetailDTO.getFinalExamScore()==null){
+            scoreDetailDTO.setMark(mark);
+            return;
+        }
+        mark+=(getScore(attendanceWeight,scoreDetailDTO.getAttendanceScore())+
+                getScore(midTermExamWeight,scoreDetailDTO.getMidTermExamScore())+
+                getScore(practiceWeight,scoreDetailDTO.getPracticeScore())+
+                getScore(assignmentWeight,scoreDetailDTO.getAssignmentScore())+
+                getScore(finalExamWeight,scoreDetailDTO.getFinalExamScore()));
+        mark = mark/100;
+        mark = roundMark(mark);
+        scoreDetailDTO.setMark(mark);
+
+    }
+
+    private static void setMarkForEnglishSubject(ScoreDetailDTO scoreDetailDTO,
+                                                 Integer attendanceWeight,
+                                                 Integer midTermExamWeight,
+                                                 Integer practiceWeight,
+                                                 Integer assignmentWeight, Integer finalExamWeight){
+        float mark = (float) 0.0;
+        scoreDetailDTO.setMark(mark);
+        Float midTermExamScore = scoreDetailDTO.getMidTermExamScore();
+        if(!isValidEnglishScore(midTermExamScore)){
+            return;
+        }
+        Float practiceScore = scoreDetailDTO.getPracticeScore();
+        if(!isValidEnglishScore(practiceScore)){
+            return;
+        }
+        Float assignmentScore = scoreDetailDTO.getAssignmentScore();
+        if(!isValidEnglishScore(assignmentScore)){
+            return;
+        }
+        Float finalExamScore = scoreDetailDTO.getFinalExamScore();
+        if(!isValidEnglishScore(finalExamScore)){
+            return;
+        }
+        mark+=( getScore(midTermExamWeight,midTermExamScore)+
+                getScore(practiceWeight,practiceScore)+
+                getScore(assignmentWeight,assignmentScore)+
+                getScore(finalExamWeight,finalExamScore));
+        mark = mark/1000;
+        mark = roundMark(mark);
+        scoreDetailDTO.setMark(mark);
+    }
+
+    private static boolean isValidEnglishScore(Float score){
+        return score != null && score >= (float) 30;
     }
 
 }
