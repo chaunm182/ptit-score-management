@@ -50,6 +50,9 @@ public class LogingAspect {
         }
         String remoteAddr;
         remoteAddr = request.getHeader("X-FORWARDED-FOR");
+        if(remoteAddr==null ||remoteAddr.equals("")){
+            remoteAddr = request.getRemoteAddr();
+        }
         logger.info(remoteAddr);
         //save
         Student student = studentService.findByStudentId(studentId);

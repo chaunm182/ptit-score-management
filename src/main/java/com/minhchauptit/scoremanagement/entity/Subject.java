@@ -31,7 +31,7 @@ public class Subject {
     private SubjectDetail subjectDetail;
 
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade = {CascadeType.REMOVE})
     private Set<ScoreDetail> scoreDetails;
 
     public Subject() {

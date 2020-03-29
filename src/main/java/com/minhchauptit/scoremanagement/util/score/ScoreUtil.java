@@ -2,9 +2,6 @@ package com.minhchauptit.scoremanagement.util.score;
 
 import com.minhchauptit.scoremanagement.dto.ScoreDetailDTO;
 import com.minhchauptit.scoremanagement.dto.SubjectDTO;
-import com.minhchauptit.scoremanagement.dto.Transcript;
-
-import java.util.List;
 
 public class ScoreUtil {
     public static String convertMarkToLetter(float mark){
@@ -50,7 +47,8 @@ public class ScoreUtil {
                 getScore(practiceWeight,scoreDetailDTO.getPracticeScore())+
                 getScore(assignmentWeight,scoreDetailDTO.getAssignmentScore())+
                 getScore(finalExamWeight,scoreDetailDTO.getFinalExamScore()));
-        mark = mark/100;
+        //if english subject then mark/1000 else mark/100
+        mark = mark>1000 ? mark/1000 : mark/100;
         mark = roundMark(mark);
         scoreDetailDTO.setMark(mark);
     }

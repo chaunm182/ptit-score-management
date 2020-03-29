@@ -165,7 +165,8 @@ public class ScoreRestController {
                 scoreDetailService.saveScoreDetail(scoreDetail);
                 count++;
             }catch (Exception ex){
-                ex.printStackTrace();
+                logger.warning(ex.getMessage());
+                logger.warning("Fail to save student: "+studentId);
             }
         }
         response.append("Saved "+count+" new records");
