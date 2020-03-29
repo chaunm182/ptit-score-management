@@ -31,7 +31,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    @Cacheable("subjects")
     public Page<Subject> findAllWithPagingAndSorting(Integer page, Integer size, String sortExpression, String sortDirection) {
         Sort sort = Sort.by(sortExpression);
         if(sortDirection.equalsIgnoreCase("ASC")) sort.ascending();
@@ -42,7 +41,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    @CacheEvict(value = "subjects", allEntries = true)
     public Subject save(Subject subject) {
         long currentTime = System.currentTimeMillis();
         subject.setCreatedAt(new Timestamp(currentTime));
