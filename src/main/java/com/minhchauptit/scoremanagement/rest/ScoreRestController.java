@@ -164,9 +164,10 @@ public class ScoreRestController {
             try {
                 scoreDetailService.saveScoreDetail(scoreDetail);
                 count++;
+                logger.info("====> Saved score successfully - count: "+count);
             }catch (Exception ex){
                 logger.warning(ex.getMessage());
-                logger.warning("Fail to save student: "+studentId);
+                logger.warning("save failed student: "+studentId);
             }
         }
         response.append("Saved "+count+" new records");
