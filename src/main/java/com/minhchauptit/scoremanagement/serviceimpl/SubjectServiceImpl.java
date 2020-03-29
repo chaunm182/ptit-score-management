@@ -63,7 +63,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    @CacheEvict(value = "subjects", allEntries = true)
     public void deleteById(Integer id) {
         subjectRepository.deleteById(id);
     }
