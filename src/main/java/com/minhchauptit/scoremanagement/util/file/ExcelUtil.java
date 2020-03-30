@@ -44,7 +44,7 @@ public class ExcelUtil {
 
     private Sheet getSheet(Workbook workbook){
         logger.info("Number of Sheets: " +workbook.getNumberOfSheets());
-        int sheetNum = 0;
+        int sheetNum = -1;
         Iterator<Sheet> sheetIterator = workbook.sheetIterator();
         while (sheetIterator.hasNext()){
             Sheet currentSheet  = sheetIterator.next();
@@ -57,7 +57,7 @@ public class ExcelUtil {
                     break;
                 }
             }
-            if(sheetNum!=0) break;
+            if(sheetNum>=0) break;
         }
         return workbook.getSheetAt(sheetNum);
     }
