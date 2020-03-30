@@ -11,4 +11,5 @@ public interface ScoreDetailService {
     List<ScoreDetail> findScoreDetailByStudentIdAndSemester(String studentId, Integer semester);
     Boolean isExistScore(Integer subjectId, Integer semester);
     void deleteBySubjectIdAndSemester(Integer subjectId, Integer semester);
+    Integer saveAll(List<ScoreDetail> list);
 }

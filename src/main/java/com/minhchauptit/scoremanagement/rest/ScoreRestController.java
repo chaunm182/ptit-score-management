@@ -151,7 +151,7 @@ public class ScoreRestController {
         subjectService.save(subject);
         //save new record
         int count=0;
-
+        List<ScoreDetail> scoreDetails = new ArrayList<>();
         for(ScoreDetailDTO scoreDetailDTO : listScoreDetailDTOS){
             ScoreDetail scoreDetail = ScoreDetailBeanUtil.dto2Entity(scoreDetailDTO);
             scoreDetail.setSubject(subject);
@@ -161,16 +161,17 @@ public class ScoreRestController {
             if(student!=null){
                 scoreDetail.setStudent(student);
             }
-            try {
-                scoreDetailService.saveScoreDetail(scoreDetail);
-                count++;
-                logger.info("====> Saved score successfully - count: "+count);
-            }catch (Exception ex){
-                logger.warning(ex.getMessage());
-                logger.warning("save failed student: "+studentId);
-            }
+            scoreDetails.add(scoreDetail);
         }
-        response.append("Saved "+count+" new records");
+        long startTime = System.currentTimeMillis();
+        try{
+             count = scoreDetailService.saveAll(scoreDetails);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        long timeToSave = endTime-startTime;
+        response.append("Saved "+count+" new records in "+timeToSave+"ms");
         //end of save
 
         return response.toString();

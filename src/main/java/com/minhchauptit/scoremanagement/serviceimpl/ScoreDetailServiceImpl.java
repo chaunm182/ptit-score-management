@@ -49,4 +49,9 @@ public class ScoreDetailServiceImpl implements ScoreDetailService {
     public void deleteBySubjectIdAndSemester(Integer subjectId, Integer semester) {
         scoreDetailRepository.deleteBySubjectIdAndSemester(subjectId,semester);
     }
+
+    @Override
+    public Integer saveAll(List<ScoreDetail> list) {
+        return scoreDetailRepository.saveAll(list).size();
+    }
 }
