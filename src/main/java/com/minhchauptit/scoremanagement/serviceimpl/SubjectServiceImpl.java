@@ -25,9 +25,13 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Autowired
     private CustomizeSubjectRepository customizeSubjectRepository;
+
     @Override
+    @Cacheable("allSubject")
     public List<Subject> findAll() {
-        return subjectRepository.findAll();
+        Sort sort = Sort.by("subjectId");
+        sort = sort.ascending();
+        return subjectRepository.findAll(sort);
     }
 
     @Override
@@ -41,6 +45,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @CacheEvict(value = "allSubject",allEntries = true)
     public Subject save(Subject subject) {
         long currentTime = System.currentTimeMillis();
         subject.setCreatedAt(new Timestamp(currentTime));
@@ -63,6 +68,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    @CacheEvict(value = "allSubject",allEntries = true)
     public void deleteById(Integer id) {
         subjectRepository.deleteById(id);
     }

@@ -5,6 +5,7 @@ import com.minhchauptit.scoremanagement.repository.CustomizeScoreDetailRepositor
 import com.minhchauptit.scoremanagement.repository.ScoreDetailRepository;
 import com.minhchauptit.scoremanagement.service.ScoreDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +52,7 @@ public class ScoreDetailServiceImpl implements ScoreDetailService {
     }
 
     @Override
+    @CacheEvict(value = "subjectUpdateNotification",allEntries = true)
     public Integer saveAll(List<ScoreDetail> list) {
         return scoreDetailRepository.saveAll(list).size();
     }
