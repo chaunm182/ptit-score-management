@@ -1,8 +1,7 @@
 var studentInput = $('#studentInput');
 var iconSection = $('#icon');
-var tableBody = $('tbody');
 studentInput.focus();
-
+var tableSection = $('.table-responsive');
 var scoresDiv = $('#scores');
 
 function searchScoresByStudentId(studentSuggestion) {
@@ -30,16 +29,13 @@ function searchScoresByStudentId(studentSuggestion) {
         success : function (data) {
             studentInput.prop('disabled',false);
             var listScores = data.listScore;
-
-            //draw table
             var rows = '';
             $.each(listScores,function (index,item) {
                 rows+=drawScoreRow(item);
             });
-            tableBody.html('');
-            tableBody.append(rows);
+            //draw table
+            refreshTableScore(rows);
             $('#termPointAverage').text(data.termPointAverage.toFixed(2));
-
             //slide down
             scoresDiv.slideDown(400);
         },
@@ -49,6 +45,32 @@ function searchScoresByStudentId(studentSuggestion) {
     })
 }
 
+function refreshTableScore(rows) {
+    var table = '<table id="main-table" class="table table-hover table-striped text-center" data-tablesaw-mode="columntoggle">\n' +
+        '<thead class="text-uppercase bg-deepblue">\n' +
+        '<tr>\n' +
+        '<th data-tablesaw-priority="persist" scope="col">Mã MH</th>\n' +
+        '<th data-tablesaw-priority="1" scope="col">Tên MH</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">Số TC</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">CC</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">KT</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">TN-TH</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">BTL</th>\n' +
+        '<th data-tablesaw-priority="1" scope="col">Thi</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">TK(10)</th>\n' +
+        '<th data-tablesaw-priority="1" scope="col">TK(CH)</th>\n' +
+        '<th data-tablesaw-priority="5" scope="col">Ghi chú</th>\n' +
+        '</tr>\n' +
+        '</thead>\n' +
+        '<tbody>\n' +
+        '</tbody>\n' +
+        '</table>';
+    tableSection.html(table);
+    var tableBody = $('#main-table tbody');
+    tableBody.html(rows);
+    $('#main-table').tablesaw().data( "tablesaw" ).refresh();
+}
+
 function drawScoreRow(item) {
     var attendanceScore = (item.attendanceScore!=null) ? item.attendanceScore : '';
     var midTermScore = (item.midTermExamScore!=null) ? item.midTermExamScore : '';
@@ -56,17 +78,17 @@ function drawScoreRow(item) {
     var assignmentScore = (item.assignmentScore!=null) ? item.assignmentScore : '';
     var finalExamScore = (item.finalExamScore!=null) ? item.finalExamScore : '';
     var row = '<tr>\n' +
-        '        <th scope="row">'+item.subjectDTO.subjectId+'</th>\n' +
-        '        <td>'+item.subjectDTO.name+'</td>\n' +
-        '        <td>'+item.subjectDTO.credit+'</td>\n' +
-        '        <td>'+attendanceScore+'</td>\n' +
-        '        <td>'+midTermScore+'</td>\n' +
-        '        <td>'+practiceScore+'</td>\n' +
-        '        <td>'+assignmentScore+'</td>\n' +
-        '        <td>'+finalExamScore+'</td>\n' +
-        '        <td>'+item.mark+'</td>\n' +
-        '        <th scope="row">'+item.letter+'</th>\n' +
-        '        <td>'+item.description+'</td>\n' +
+        '        <th data-tablesaw-priority="persist" scope="row">'+item.subjectDTO.subjectId+'</th>\n' +
+        '        <td data-tablesaw-priority="1">'+item.subjectDTO.name+'</td>\n' +
+        '        <td data-tablesaw-priority="5">'+item.subjectDTO.credit+'</td>\n' +
+        '        <td data-tablesaw-priority="4">'+attendanceScore+'</td>\n' +
+        '        <td data-tablesaw-priority="4">'+midTermScore+'</td>\n' +
+        '        <td data-tablesaw-priority="4">'+practiceScore+'</td>\n' +
+        '        <td data-tablesaw-priority="4">'+assignmentScore+'</td>\n' +
+        '        <td data-tablesaw-priority="1">'+finalExamScore+'</td>\n' +
+        '        <td data-tablesaw-priority="5">'+item.mark+'</td>\n' +
+        '        <th data-tablesaw-priority="1" scope="row">'+item.letter+'</th>\n' +
+        '        <td data-tablesaw-priority="5">'+item.description+'</td>\n' +
         '      </tr>';
     return row;
 
