@@ -19,10 +19,6 @@ public class LoginController {
     @Autowired
     private PasswordResetTokenService passwordResetTokenService;
 
-    @GetMapping("/login")
-    public String showLoginPage(){
-        return "view/admin/login";
-    }
 
     @GetMapping("/access-denied")
     public String showAccessDeniedPage(){

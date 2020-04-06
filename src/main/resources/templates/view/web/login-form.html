@@ -1,0 +1,53 @@
+<div class="modal fade login" id="loginModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog login animated">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng nhập</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="box">
+                    <div class="content">
+                        <div class="error"></div>
+                        <div class="form loginBox">
+                            <form id="form-login" method="post" action="/auth-user" accept-charset="UTF-8">
+                                <input id="username" class="form-control" type="text" placeholder="Tên tài khoản..." autofocus name="username">
+                                <input id="password" class="form-control" type="password" placeholder="Mật khẩu..." name="password">
+                                <input id="btnSubmitLogin" class="btn btn-default btn-login" type="submit" value="Đăng nhập">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content registerBox" style="display:none;">
+                        <div class="form">
+                            <form method="" data-remote="true" action="" accept-charset="UTF-8">
+                                <input  class="form-control" type="text" placeholder="Mã sinh viên..." name="studentId">
+                                <input  class="form-control" type="email" placeholder="Email..." name="email">
+                                <input  class="form-control" type="text" placeholder="Tên tài khoản..." name="username">
+                                <input  class="form-control" type="password" placeholder="Mật khẩu..." name="password">
+                                <input class="btn btn-default btn-register" type="button" value="Tạo tài khoản" name="commit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="forgot login-footer">
+                            <span>Bạn quên mật khẩu?
+                                 <a href="javascript: showRegisterForm();">Đặt lại mật khẩu</a>
+                            </span>
+                            <span>Chưa có tài khoản?
+                                 <a href="javascript: showRegisterForm();">Đăng ký ngay</a>
+                            </span>
+                </div>
+                <div class="forgot register-footer" style="display:none">
+                    <span>Đã có tài khoản?</span>
+                    <a href="javascript: showLoginForm();">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -22,11 +22,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     private AccountService accountService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        logger.info("Customer authentication success handler: ");
+        logger.info("======> Customize authentication success handler");
         String username = authentication.getName();
         Account account = accountService.findByUsername(username);
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute("account",account);
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/admin/home");
     }
 }

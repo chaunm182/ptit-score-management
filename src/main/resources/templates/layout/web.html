@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th = "http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang = "en">
 <head>
     <meta charset="UTF-8">
@@ -9,18 +10,18 @@
     <meta name="robots" content="index,follow">
     <meta name="revisit-after" content="7 days">
     <meta name="description" content="Trang web hỗ trợ xem nhanh điểm thi học kỳ cho sinh viên PTIT. Cập nhật điểm thi nhanh chóng">
-    <meta name="keywords" content="xem điểm thi, xem điểm thi ptit, ptit">
+    <meta name="keywords" content="xem điểm thi,diem thi ptit, xem điểm thi ptit, ptit,xem diem ptit,xem diem thi ptit,điểm thi ptit">
     <meta name="copyright" content="dtptit.online">
     <meta name="theme-color" content="#2974AC">
     <meta property="og:title" content="Xem điểm thi PTIT ">
-    <meta property="og:description" content="Trang web xem nhanh điểm thi học kỳ cho sinh viên PTIT. Cập nhật điểm thi nhanh chóng">
+    <meta property="og:description" content="Trang web xem điểm thi học kỳ cho sinh viên PTIT. Cập nhật điểm thi nhanh chóng">
     <link rel="shortcut icon" th:href="@{/favicon.ico}">
     <link rel="icon" type="image/png" th:href="@{/favicon.ico}">
 <!--    bootstrap and font-awesome-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tablesaw/3.1.2/tablesaw.min.css">
-
+    <link rel="stylesheet" th:href="@{/web-layer/css/login-register.css}">
     <link rel="stylesheet" th:href="@{/web-layer/css/styles.css}">
     <link rel="stylesheet" th:href="@{/web-layer/css/sticky-footer.css}">
     <link rel="stylesheet" th:href="@{/web-layer/css/loader.css}">
@@ -47,15 +48,42 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li id="menuSearch" class="nav-item">
                             <a class="nav-link" th:href="@{/}"><i class="fa fa-search"></i><span> Điểm thi</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-line-chart"></i><span> Bảng xếp hạng</span></a>
+                            <a class="nav-link" href="#"><i class="fas fa-chart-line"></i><span> Bảng xếp hạng</span></a>
+                        </li>
+                        <li id="menuFaq" class="nav-item">
+                            <a class="nav-link" th:href="@{/faq}"><i class="far fa-question-circle"></i><span> FAQ</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/login}"><i class="fa fa-user"></i><span> Đăng nhập</span></a>
+                            <th:block th:if="${session.account==null}">
+                                <a id="btnLogin"
+                                   onclick="openLoginModal()" type="button" class="nav-link" data-toggle="modal" href="#loginModal">
+                                    <i class="far fa-user"></i><span> Đăng nhập</span>
+                                </a>
+                            </th:block>
+                            <th:block th:unless="${session.account==null}">
+                                <div class="dropdown">
+                                    <a data-toggle="dropdown" aria-expanded="true"
+                                       type="button" class="nav-link">
+                                        <i class="far fa-user"></i><span> Xin chào, </span>
+                                        <span th:text="${session.account.person.firstName} +' '+ ${session.account.person.lastName}"></span>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <th:block sec:authorize="hasRole('ADMIN')" >
+                                            <a  class="dropdown-item" th:href="@{admin/home}"><i class="fas fa-tachometer-alt"></i> Trang quản trị</a>
+                                        </th:block>
+                                        <a  class="dropdown-item" href=""><i class="fas fa-cogs"></i> Cài đặt</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form method="post" th:action="@{/logout}">
+                                            <button type="submit" class="dropdown-item"> <i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </th:block>
                         </li>
                     </ul>
                 </div>
@@ -70,6 +98,62 @@
             <div class="row">
                 <div class="col-lg-12" layout:fragment="content">
 
+                </div>
+            </div>
+        </div>
+<!--        login modal-->
+        <div id="login-form" class="login-form">
+            <div class="modal fade login" id="loginModal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog login animated">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Đăng nhập</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="box">
+                                <div class="content">
+                                    <div class="error"></div>
+                                    <div class="form loginBox">
+                                        <form id="form-login" method="post" action="/auth-user" accept-charset="UTF-8">
+                                            <input id="username" class="form-control" type="text" placeholder="Tên tài khoản..." autofocus name="username">
+                                            <input id="password" class="form-control" type="password" placeholder="Mật khẩu..." name="password">
+                                            <input id="btnSubmitLogin" class="btn btn-default btn-login" type="submit" value="Đăng nhập">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="content registerBox" style="display:none;">
+                                    <div class="form">
+                                        <form method="" data-remote="true" action="" accept-charset="UTF-8">
+                                            <input id="studentId"  class="form-control" type="text" placeholder="Mã sinh viên..." name="studentId">
+                                            <input  class="form-control" type="email" placeholder="Email..." name="email">
+                                            <input  class="form-control" type="text" placeholder="Tên tài khoản..." name="username">
+                                            <input  class="form-control" type="password" placeholder="Mật khẩu..." name="password">
+                                            <input class="btn btn-default btn-register" type="button" value="Tạo tài khoản" name="commit">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="forgot login-footer">
+                                <span>Bạn quên mật khẩu?
+                                    <a href="#">Đặt lại mật khẩu</a>
+                                </span>
+                                <span>Chưa có tài khoản?
+                                    <a href="javascript: showRegisterForm();">Đăng ký ngay</a>
+                                </span>
+                            </div>
+                            <div class="forgot register-footer" style="display:none">
+                                <span>Đã có tài khoản?</span>
+                                <a href="javascript: showLoginForm();">Đăng nhập</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,10 +173,11 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.10/jquery.autocomplete.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesaw/3.1.2/tablesaw.jquery.min.js"></script>
     <script th:src="@{/web-layer/js/scripts.js}"></script>
+    <script th:src="@{/web-layer/js/login-register.js}"></script>
     <script layout:fragment="script"></script>
-
 </body>
 </html>
