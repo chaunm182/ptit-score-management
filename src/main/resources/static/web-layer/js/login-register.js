@@ -44,7 +44,8 @@ function shakeModal(){
     }, 1000 ); 
 }
 
-$('#form-login').on('submit',function (e) {
+var formLogin = $('#form-login');
+formLogin.on('submit',function (e) {
     e.preventDefault();
     var form = new FormData();
     var btnSubmit = $('#btnSubmitLogin');
@@ -52,7 +53,7 @@ $('#form-login').on('submit',function (e) {
     form.append("password", $('#password').val());
 
     $.ajax({
-        url:  "/auth-user",
+        url:  formLogin.attr('action'),
         method: "POST",
         processData: false,
         contentType: false,
