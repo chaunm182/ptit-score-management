@@ -2,6 +2,7 @@ package com.minhchauptit.scoremanagement.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Value("${server.domain}")
+    private String domain;
     @Autowired
     @Qualifier("accountServiceImpl")
     private UserDetailsService userDetailsService;
@@ -47,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .loginPage("/")
                     .usernameParameter("username").passwordParameter("password")
                     .loginProcessingUrl("/auth-user").successHandler(authenticationSuccessHandler)
-                    .failureUrl("/login-fail")
+                    .failureUrl(domain+"/login-fail")
                 .and()
                     .logout().clearAuthentication(true).permitAll()
                 .and()
