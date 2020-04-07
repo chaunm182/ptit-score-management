@@ -64,6 +64,7 @@ formLogin.on('submit',function (e) {
             btnSubmit.val('Vui lòng chờ...');
         },
         success: function (res) {
+            console.log(res);
             if(res.trim()==='false'){
                 btnSubmit.prop('disabled',false);
                 btnSubmit.val('Đăng nhập');
