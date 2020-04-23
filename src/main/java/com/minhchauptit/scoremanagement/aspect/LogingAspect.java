@@ -46,14 +46,21 @@ public class LogingAspect {
             else if(arg instanceof HttpServletRequest){
                 request = (HttpServletRequest) arg;
             }
-
         }
         String remoteAddr;
         remoteAddr = request.getHeader("X-FORWARDED-FOR");
         if(remoteAddr==null ||remoteAddr.equals("")){
             remoteAddr = request.getRemoteAddr();
         }
-        logger.info(remoteAddr);
+        else {
+            try{
+                remoteAddr = remoteAddr.split(",")[0];
+            }catch (Exception ex){
+                logger.warning("cannot split remote address");
+            }
+        }
+        logger.info(remoteAddr+" search: "+studentId);
+
         //save
         Student student = studentService.findByStudentId(studentId);
         Ip ip = ipService.findByIp(remoteAddr);
