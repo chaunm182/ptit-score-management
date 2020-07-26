@@ -12,16 +12,16 @@
         <div class="container">
             <div class="row align-items-center">
 
-                <div class="col-md-7 col-sm-12 mb-3">
+                <div class="col-md-8 col-sm-12 mb-3">
                     <div class="alert alert-info mt-3" role="alert" style="padding-top: 7px;padding-bottom: 7px">
                         <div class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner" >
                                 <th:block th:each="subject,state : ${listSubject}">
                                     <div th:if="${state.first}" class="carousel-item active">
-                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong>
+                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong> kỳ <strong>20192</strong>
                                     </div>
                                     <div th:unless="${state.first}" class="carousel-item">
-                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong>
+                                        Thông báo: Cập nhật điểm thi môn học <strong th:text="${subject.name}"></strong> kỳ <strong>20192</strong>
                                     </div>
                                 </th:block>
 
@@ -49,7 +49,8 @@
                                     <div class="form-group float-right text-right">
                                         <label class="col-form-label sr-only">Kỳ học</label>
                                         <select id="semester" class="form-control form-inline">
-                                            <option selected>20191</option>
+                                            <option>20192</option>
+                                            <option>20191</option>
                                         </select>
                                     </div>
                                 </div>
